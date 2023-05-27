@@ -21,8 +21,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           name: dr-purple-v0.0.${{ github.run_number }}.apk
+          artifacts: "build/app/outputs/flutter-apk/app-release.apk"
           tag: v0.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
-          artifacts: "build/app/outputs/flutter-apk/app-release.apk"
-          with:
-            name: dr-purple-v0.0.${{ github.run_number }}.apk
