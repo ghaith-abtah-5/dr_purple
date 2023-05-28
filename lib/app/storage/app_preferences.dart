@@ -11,6 +11,7 @@ class AppPreferences {
   static const refreshTokenKey = "REFRESH_TOKEN_KEY";
   static const userSignedInKey = "USER_SIGNED_IN_KEY";
   static const lastRouteKey = "LAST_ROUTE_KEY";
+  static const darkThemeKey = "DARK_THEME_KEY";
 
   Language? getAppLanguage() {
     String? language = _sharedPreferences.getString(languageKey);
@@ -53,6 +54,13 @@ class AppPreferences {
 
   Future<bool> removeLastRoute() async =>
       await _sharedPreferences.remove(lastRouteKey);
+
+  Future<void> setDarkTheme({
+    required bool darkThemeValue,
+  }) async =>
+      await _sharedPreferences.setBool(darkThemeKey, darkThemeValue);
+
+  bool? getDarkTheme() => _sharedPreferences.getBool(darkThemeKey);
 
   Future<void> reload() async => await _sharedPreferences.reload();
 

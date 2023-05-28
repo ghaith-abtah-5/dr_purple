@@ -1,11 +1,14 @@
 import 'package:dr_purple/app/app_configurations/assets.dart';
 import 'package:dr_purple/app/app_configurations/scroll_behavior.dart';
-import 'package:dr_purple/app/app_management/color_manager.dart';
+import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:dr_purple/app/app_management/font_manager.dart';
 import 'package:dr_purple/app/app_management/route_manager.dart';
 import 'package:dr_purple/app/app_management/strings_manager.dart';
-import 'package:dr_purple/app/app_management/styles_manager.dart';
+import 'package:dr_purple/app/app_management/theme/styles_manager.dart';
 import 'package:dr_purple/app/app_management/values_manager.dart';
+import 'package:dr_purple/core/widgets/buttons/dr_purple_app_button.dart';
+import 'package:dr_purple/core/widgets/text_fields/dr_purple_email_text_field.dart';
+import 'package:dr_purple/core/widgets/text_fields/dr_purple_password_text_field.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -20,6 +23,33 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late final TextEditingController _emailTextEditingController,
+      _passwordTextEditingController;
+
+  final _formKey = GlobalKey<FormState>();
+
+  _bind() {
+    _emailTextEditingController = TextEditingController();
+    _passwordTextEditingController = TextEditingController();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _bind();
+  }
+
+  _disposeControllers() {
+    _emailTextEditingController.dispose();
+    _passwordTextEditingController.dispose();
+  }
+
+  @override
+  void dispose() {
+    _disposeControllers();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: ColorManager.primary,
@@ -57,23 +87,26 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
 
-  Widget _loginMainView() => Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ..._loginTitle(),
-          _emailTextField(),
-          SizedBox(height: AppSize.s2.h),
-          _passwordTextField(),
-          SizedBox(height: AppSize.s1.h),
-          _forgetPasswordClickable(context),
-          SizedBox(height: AppSize.s3.h),
-          _loginButton(),
-          SizedBox(height: AppSize.s3.h),
-          _noAccountClickable(context),
-          SizedBox(height: AppSize.s4.h),
-        ],
-      ).paddingSymmetric(horizontal: AppSize.s4.w);
+  Widget _loginMainView() => Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ..._loginTitle(),
+            _emailTextField(),
+            SizedBox(height: AppSize.s2.h),
+            _passwordTextField(),
+            SizedBox(height: AppSize.s1.h),
+            _forgetPasswordClickable(context),
+            SizedBox(height: AppSize.s3.h),
+            _loginButton(),
+            SizedBox(height: AppSize.s3.h),
+            _noAccountClickable(context),
+            SizedBox(height: AppSize.s4.h),
+          ],
+        ).paddingSymmetric(horizontal: AppSize.s4.w),
+      );
 
   Widget _noAccountClickable(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -93,21 +126,13 @@ class _LoginScreenState extends State<LoginScreen> {
               fontSize: FontSize.s16,
               textDecoration: TextDecoration.underline,
             ),
-          ).onTap(() => context.replace("/${Routes.registerRoute}")),
+          ).onTap(() => context.pushReplacement("/${Routes.registerRoute}")),
         ],
       );
 
-  Widget _loginButton() => AppButton(
-        color: ColorManager.primary,
-        width: double.infinity,
-        onTap: () {},
-        child: Text(
-          AppStrings.login.tr(),
-          style: getBoldTextStyle(
-            fontSize: FontSize.s16,
-            color: ColorManager.white,
-          ),
-        ),
+  Widget _loginButton() => DrPurpleAppButton(
+        onPress: () {},
+        title: AppStrings.login.tr(),
       );
 
   Widget _forgetPasswordClickable(BuildContext context) => Align(
@@ -119,58 +144,18 @@ class _LoginScreenState extends State<LoginScreen> {
             color: ColorManager.textSecondaryColor,
             textDecoration: TextDecoration.underline,
           ),
-        ).onTap(() {}),
+        ).onTap(() => context.push(
+            "${GoRouter.of(context).location}/${Routes.forgotPasswordRoute}")),
       );
 
-  Widget _passwordTextField() => AppTextField(
-        textFieldType: TextFieldType.PASSWORD,
-        decoration: InputDecoration(
-          labelText: AppStrings.passwordTextFieldLabel.tr(),
-          labelStyle: getRegularTextStyle(
-            fontSize: FontSize.s16,
-            color: ColorManager.textSecondaryColor,
-          ),
-          prefixIcon: const Icon(
-            Icons.lock_outline,
-            color: ColorManager.black,
-
-            /// todo check for dark mode
-            //appStore.isDarkModeOn
-            //  ? ColorManager.white
-            //  : ColorManager.black,
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: ColorManager.lightGrey.withOpacity(0.2),
-            ),
-          ),
-        ),
+  Widget _passwordTextField() => DrPurplePasswordTextField(
+        passwordTextEditingController: _passwordTextEditingController,
+        formKey: _formKey,
       );
 
-  Widget _emailTextField() => AppTextField(
-        textFieldType: TextFieldType.EMAIL,
-        decoration: InputDecoration(
-          labelText: AppStrings.emailTextFieldLabel.tr(),
-          labelStyle: getRegularTextStyle(
-            fontSize: FontSize.s16,
-            color: ColorManager.textSecondaryColor,
-          ),
-          prefixIcon: const Icon(
-            Icons.email_outlined,
-            color: ColorManager.black,
-
-            /// todo check for dark mode
-            //appStore.isDarkModeOn
-            //  ? ColorManager.white
-            //  : ColorManager.black,
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: ColorManager.lightGrey.withOpacity(0.2),
-              width: AppSize.s1,
-            ),
-          ),
-        ),
+  Widget _emailTextField() => DrPurpleEmailTextField(
+        emailTextEditingController: _emailTextEditingController,
+        formKey: _formKey,
       );
 
   List<Widget> _loginTitle() => [

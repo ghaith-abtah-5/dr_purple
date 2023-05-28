@@ -10,9 +10,9 @@ class ColorManager {
   static Color lightGrey100 = Colors.grey.shade100;
   static const Color greyShade = Color(0xfff5f5f5);
   static const white = Colors.white;
-  static const textPrimaryColor = Color(0xFF2E3033);
+  static Color textPrimaryColor = const Color(0xFF2E3033);
+  static Color textSecondaryColor = const Color(0xFF757575);
   static const black = Colors.black;
-  static const textSecondaryColor = Color(0xFF757575);
 
   static const appColorPrimary = Color(0xFFA020F0);
   static const iconColorPrimary = Color(0xFFFFFFFF);

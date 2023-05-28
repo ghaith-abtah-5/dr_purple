@@ -1,3 +1,6 @@
+import 'package:dr_purple/app/app_management/theme/color_manager.dart';
+import 'package:dr_purple/app/app_management/theme/theme_cubit/theme_cubit.dart';
+import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
 import 'package:dr_purple/core/widgets/country_code_picker/src/models/codes_bank.dart';
 import 'package:dr_purple/core/widgets/country_code_picker/src/models/country_code.dart';
 import 'package:dr_purple/core/widgets/country_code_picker/src/widgets/country_code_picker_modal.dart';
@@ -8,9 +11,6 @@ const _kFavoritesIcon = Icon(Icons.favorite, color: Colors.red);
 
 /// Default modal and TextField default borderRadius.
 const kBorderRadius = Radius.circular(10);
-
-/// Default modal background color.
-const _kBackgroundColor = Color(0xFFFFFFFF);
 
 /// Default modal barrier color.
 const _kBarrierColor = Color(0x50000000);
@@ -116,7 +116,9 @@ class FlCountryCodePicker {
           topRight: kBorderRadius,
         ),
       ),
-      backgroundColor: _kBackgroundColor,
+      backgroundColor: instance<ThemeCubit>().isThemeDark
+          ? ColorManager.appSecondaryBackgroundColor
+          : ColorManager.white,
       barrierColor: _kBarrierColor,
       clipBehavior: Clip.hardEdge,
       constraints: BoxConstraints(

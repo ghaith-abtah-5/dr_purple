@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dr_purple/app/app_configurations/assets.dart';
-import 'package:dr_purple/app/app_management/color_manager.dart';
+import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:dr_purple/app/app_management/font_manager.dart';
 import 'package:dr_purple/app/app_management/strings_manager.dart';
 import 'package:dr_purple/app/app_management/values_manager.dart';

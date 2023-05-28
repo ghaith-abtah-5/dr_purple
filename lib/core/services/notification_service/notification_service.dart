@@ -1,4 +1,4 @@
-import 'package:dr_purple/app/app_management/color_manager.dart';
+import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:dr_purple/app/app_management/strings_manager.dart';
 import 'package:dr_purple/core/services/background_uploader/background_uploader.dart';
 import 'package:easy_localization/easy_localization.dart';

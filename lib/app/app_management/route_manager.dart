@@ -1,7 +1,9 @@
-import 'package:dr_purple/app/app_management/values_manager.dart';
 import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
+import 'package:dr_purple/features/auth/presentation/screens/forget_password_screen.dart';
 import 'package:dr_purple/features/auth/presentation/screens/login_screen.dart';
 import 'package:dr_purple/features/auth/presentation/screens/register_screen.dart';
+import 'package:dr_purple/features/auth/presentation/screens/reset_password_screen.dart';
+import 'package:dr_purple/features/auth/presentation/screens/verify_account_screen.dart';
 import 'package:dr_purple/features/splash/presentation/screens/get_started_screen.dart';
 import 'package:dr_purple/features/splash/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,7 @@ class Routes {
   static const String forgotPasswordRoute = "forgotPassword";
   static const String resetPasswordRoute = "resetPassword";
   static const String registerRoute = "register";
+  static const String verifyAccountRoute = "verifyAccount";
   static const String homeRoute = "home";
   static const String settingsRoute = "settings";
   static const String languageRoute = "language";
@@ -41,6 +44,22 @@ class RouteGenerator {
             path: Routes.loginRoute,
             builder: (BuildContext context, GoRouterState state) =>
                 const LoginScreen(),
+            routes: <GoRoute>[
+              GoRoute(
+                path: Routes.forgotPasswordRoute,
+                builder: (BuildContext context, GoRouterState state) {
+                  initForgetPasswordModule();
+                  return const ForgetPasswordScreen();
+                },
+                routes: <GoRoute>[
+                  GoRoute(
+                    path: Routes.resetPasswordRoute,
+                    builder: (BuildContext context, GoRouterState state) =>
+                        const ResetPasswordScreen(),
+                  ),
+                ],
+              ),
+            ],
           ),
           GoRoute(
             path: Routes.registerRoute,
@@ -48,29 +67,16 @@ class RouteGenerator {
               initRegisterModule();
               return const RegisterScreen();
             },
+            routes: <GoRoute>[
+              GoRoute(
+                path: Routes.verifyAccountRoute,
+                builder: (BuildContext context, GoRouterState state) =>
+                    const VerifyAccountScreen(),
+              ),
+            ],
           ),
         ],
       ),
     ],
   );
-}
-
-class UpwardsPage extends CustomTransitionPage {
-  UpwardsPage({required GoRouterState state, required Widget child})
-      : super(
-          key: state.pageKey,
-          child: child,
-          transitionDuration: AppDurations.superFast,
-          reverseTransitionDuration: AppDurations.superFast,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            const builder = OpenUpwardsPageTransitionsBuilder();
-            return builder.buildTransitions(
-              null,
-              context,
-              animation,
-              secondaryAnimation,
-              child,
-            );
-          },
-        );
 }
