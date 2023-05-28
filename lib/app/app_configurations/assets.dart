@@ -11,8 +11,9 @@ class ImageAssets {
       "${imageAssetsBaseRoute}get_started/second_slide.png";
   static const String thirdSlideImage =
       "${imageAssetsBaseRoute}get_started/third_slide.png";
-  static const String authImage =
-      "${imageAssetsBaseRoute}auth/auth_image.png";
+  static const String authImage = "${imageAssetsBaseRoute}auth/auth_image.png";
+  static const String verifyAccountImage =
+      "${imageAssetsBaseRoute}auth/verify_account_image.png";
 }
 
 /// icons

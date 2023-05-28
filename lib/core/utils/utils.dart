@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dr_purple/app/app_configurations/assets.dart';
-import 'package:dr_purple/app/app_management/color_manager.dart';
+import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:dr_purple/app/app_management/strings_manager.dart';
 import 'package:dr_purple/app/app_management/values_manager.dart';
 import 'package:dr_purple/core/utils/constants.dart';
@@ -46,12 +46,12 @@ class Utils {
       Constants.emailRegex.hasMatch(email);
 
   static bool isPhoneNumberValid(String phoneNumber) =>
-      Constants.phoneNumberRegex.hasMatch(phoneNumber);
+      Constants.phoneNumberRegex.hasMatch("+963$phoneNumber");
 
-  static bool isPasswordValidLogin(String password) => password.length >= 8;
-
-  static bool isPasswordValidRegister(String password) =>
+  static bool isPasswordValid(String password) =>
       Constants.passwordRegex.hasMatch(password);
+
+  static bool isNameValid(String name) => name.length >= 2;
 
   static Future precacheAssets(BuildContext context) async =>
       await precacheImage(const AssetImage(ImageAssets.appLogo), context)
@@ -62,7 +62,9 @@ class Utils {
           .then((value) async => await precacheImage(
               const AssetImage(ImageAssets.thirdSlideImage), context))
           .then((value) async => await precacheImage(
-              const AssetImage(ImageAssets.authImage), context));
+              const AssetImage(ImageAssets.authImage), context))
+          .then((value) async => await precacheImage(
+              const AssetImage(ImageAssets.verifyAccountImage), context));
 
   static String parsePhoneNumberForServer(
     String phoneNumber,

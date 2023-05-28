@@ -1,4 +1,5 @@
 import 'package:dr_purple/app/app_management/language_manager/language_manager.dart';
+import 'package:dr_purple/app/app_management/theme/theme_cubit/theme_cubit.dart';
 import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
 import 'package:dr_purple/app/dr_purple_app.dart';
 import 'package:dr_purple/core/services/background_uploader/background_uploader.dart';
@@ -16,6 +17,9 @@ void main() async {
 
   /// dependency injection
   await initAppModule();
+
+  /// check theme
+  instance<ThemeCubit>().initTheme();
 
   /// notification channels
   await instance<NotificationService>().initNotifications();

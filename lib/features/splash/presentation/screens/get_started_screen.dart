@@ -1,11 +1,13 @@
-import 'package:dr_purple/app/app_management/color_manager.dart';
+import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:dr_purple/app/app_management/font_manager.dart';
 import 'package:dr_purple/app/app_management/language_manager/language_manager.dart';
 import 'package:dr_purple/app/app_management/route_manager.dart';
 import 'package:dr_purple/app/app_management/strings_manager.dart';
-import 'package:dr_purple/app/app_management/styles_manager.dart';
+import 'package:dr_purple/app/app_management/theme/styles_manager.dart';
 import 'package:dr_purple/app/app_management/values_manager.dart';
 import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
+import 'package:dr_purple/core/widgets/buttons/dr_purple_app_button.dart';
+import 'package:dr_purple/core/widgets/buttons/dr_purple_text_button.dart';
 import 'package:dr_purple/features/splash/data/local/data_sources/get_started_local_data_source.dart';
 import 'package:dr_purple/features/splash/data/local/models/get_started_screen_model/get_started_screen_model.dart';
 import 'package:easy_localization/easy_localization.dart' as easy_localization;
@@ -106,17 +108,10 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
               pageController: _pageController,
               pages: _screenData,
             ),
-            AppButton(
-              onTap: () => context.replace("/${Routes.loginRoute}"),
-              color: ColorManager.white,
-              child: Text(
-                AppStrings.getStarted.tr(),
-                textAlign: TextAlign.center,
-                style: getBoldTextStyle(
-                  color: ColorManager.primary,
-                  fontSize: FontSize.s16,
-                ),
-              ),
+            DrPurpleAppButton(
+              onPress: () => context.pushReplacement("/${Routes.loginRoute}"),
+              switchColors: true,
+              title: AppStrings.getStarted.tr(),
             ),
           ],
         ),
@@ -128,16 +123,9 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
         textDirection: instance<LanguageManager>().isArabic
             ? TextDirection.rtl
             : TextDirection.ltr,
-        child: TextButton(
-          onPressed: () => context.replace("/${Routes.loginRoute}"),
-          child: Text(
-            AppStrings.skip.tr(),
-            textAlign: TextAlign.center,
-            style: getBoldTextStyle(
-              color: ColorManager.white,
-              fontSize: FontSize.s16,
-            ),
-          ),
+        child: DrPurpleTextButton(
+          onPress: () => context.pushReplacement("/${Routes.loginRoute}"),
+          title: AppStrings.skip.tr(),
         ),
       );
 }

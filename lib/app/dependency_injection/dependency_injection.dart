@@ -4,6 +4,7 @@ import 'package:dr_purple/app/app_management/media/data/remote/data_sources/back
 import 'package:dr_purple/app/app_management/media/data/repositories/background_uploader_repository.dart';
 import 'package:dr_purple/app/app_management/media/domain/use_cases/background_uploader_use_case.dart';
 import 'package:dr_purple/app/app_management/media/presentation/blocs/media_upload_bloc/media_upload_bloc.dart';
+import 'package:dr_purple/app/app_management/theme/theme_cubit/theme_cubit.dart';
 import 'package:dr_purple/app/storage/app_preferences.dart';
 import 'package:dr_purple/core/network/dio_factory.dart';
 import 'package:dr_purple/core/network/network_info.dart';
@@ -89,6 +90,12 @@ Future<void> initAppModule() async {
     instance.registerLazySingleton<AppLifecycleActions>(
         () => AppLifecycleActions());
   }
+
+  ///register Theme cubit as lazy singleton
+  if (!GetIt.I.isRegistered<ThemeCubit>()) {
+    instance.registerLazySingleton<ThemeCubit>(
+        () => ThemeCubit(instance<AppPreferences>()));
+  }
 }
 
 void neededInBackgroundUploaderModule() {
@@ -106,6 +113,13 @@ void neededInBackgroundUploaderModule() {
 }
 
 void initRegisterModule() {
+  if (!GetIt.I.isRegistered<CountryCodeCubit>()) {
+    ///register Country Code Cubit as factory
+    instance.registerFactory<CountryCodeCubit>(() => CountryCodeCubit());
+  }
+}
+
+void initForgetPasswordModule() {
   if (!GetIt.I.isRegistered<CountryCodeCubit>()) {
     ///register Country Code Cubit as factory
     instance.registerFactory<CountryCodeCubit>(() => CountryCodeCubit());

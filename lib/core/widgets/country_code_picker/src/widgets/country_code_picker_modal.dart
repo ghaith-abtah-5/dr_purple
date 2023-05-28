@@ -1,4 +1,4 @@
-import 'package:dr_purple/app/app_management/color_manager.dart';
+import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:dr_purple/app/app_management/strings_manager.dart';
 import 'package:dr_purple/core/widgets/country_code_picker/src/fl_country_code_picker.dart';
 import 'package:dr_purple/core/widgets/country_code_picker/src/models/codes_bank.dart';

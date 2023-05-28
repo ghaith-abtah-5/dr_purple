@@ -1,4 +1,4 @@
-import 'package:dr_purple/app/app_management/color_manager.dart';
+import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:dr_purple/app/app_management/font_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,11 +14,14 @@ class AppThemeData {
     hoverColor: Colors.white54,
     dividerColor: viewLineColor,
     fontFamily: FontConstants.fontFamily,
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       color: ColorManager.white,
       iconTheme: IconThemeData(color: ColorManager.textPrimaryColor),
-      systemOverlayStyle:
-          SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark),
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.dark,
+        statusBarColor: scaffoldLightColor,
+        statusBarBrightness: Brightness.light,
+      ),
     ),
     textSelectionTheme: const TextSelectionThemeData(cursorColor: Colors.black),
     colorScheme: const ColorScheme.light(
@@ -49,8 +52,10 @@ class AppThemeData {
     appBarTheme: const AppBarTheme(
       color: ColorManager.appBackgroundColorDark,
       iconTheme: IconThemeData(color: blackColor),
-      systemOverlayStyle:
-          SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+      ),
     ),
     primaryColor: ColorManager.colorPrimaryBlack,
     dividerColor: const Color(0xFFDADADA).withOpacity(0.3),

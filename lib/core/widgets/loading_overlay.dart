@@ -1,4 +1,4 @@
-import 'package:dr_purple/app/app_management/color_manager.dart';
+import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 

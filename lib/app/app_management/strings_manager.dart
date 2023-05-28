@@ -23,7 +23,6 @@ class AppStrings {
 
   /// upload image
   static const taskId = "taskId";
-
   static const camera = "camera";
   static const gallery = "gallery";
   static const cancelAction = "cancel_action";
@@ -60,6 +59,8 @@ class AppStrings {
   static const edit = "edit";
   static const delete = "delete";
   static const remove = "remove";
+  static const confirm = "confirm";
+  static const resend = "resend";
 
   /// get started screen
   static const firstSlideTitle = "first_slide_title";
@@ -90,4 +91,25 @@ class AppStrings {
   static const male = "male";
   static const female = "female";
   static const gender = "gender";
+  static const emailError = "email_error";
+  static const passwordError = "password_error";
+  static const phoneNumberError = "phone_number_error";
+  static const firstNameError = "first_name_error";
+  static const lastNameError = "last_name_error";
+
+  /// forgot password screen
+  static const forgotPassword = "forgot_password";
+  static const forgotPasswordDesc = "forgot_password_desc";
+
+  /// reset password screen
+  static const resetPassword = "reset_password";
+  static const codeDesc = "code_desc";
+  static const noCodeQuestion = "no_code_question";
+  static const newPassword = "new_password";
+  static const newPasswordTextFieldLabel = "new_password_text_field_label";
+  static const reenterNewPasswordTextFieldLabel =
+      "reenter_new_password_text_field_label";
+
+  /// verify account screen
+  static const verifyAccount = "verify_account";
 }
