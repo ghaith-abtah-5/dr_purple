@@ -1,5 +1,5 @@
 /// type of request : [RequestType.POST] or [RequestType.GET]
-enum RequestType { get, post, put, delete }
+enum RequestType { get, post, put, delete, mediaUpload }
 
 enum ParametersType { body, url }
 

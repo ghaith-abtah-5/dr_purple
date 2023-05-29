@@ -105,7 +105,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     });
 
     on<SetRegisterAddress>((event, emit) {
-      _registerObject = _registerObject.copyWith(lastName: event.address);
+      _registerObject = _registerObject.copyWith(address: event.address);
     });
 
     on<SetRegisterGender>((event, emit) {

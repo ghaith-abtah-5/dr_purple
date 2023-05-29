@@ -3,9 +3,9 @@ import 'package:dr_purple/core/features/data/remote_data_source/models/params/pa
 import 'package:dr_purple/core/utils/enums.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'login_params.g.dart';
+part 'refresh_params.g.dart';
 
-class LoginParams extends ParamsModel<LoginParamsBody> {
+class RefreshParams extends ParamsModel<RefreshParamsBody> {
   @override
   Map<String, String>? get additionalHeaders => {};
 
@@ -13,12 +13,12 @@ class LoginParams extends ParamsModel<LoginParamsBody> {
   RequestType get requestType => RequestType.post;
 
   @override
-  String? get url => 'Authentication/Login';
+  String? get url => 'Authentication/RefreshToken';
 
   @override
   Map<String, String> get urlParams => {};
 
-  const LoginParams({LoginParamsBody? body})
+  const RefreshParams({RefreshParamsBody? body})
       : super(body: body, baseUrl: AppConfigurations.baseUrl);
 
   @override
@@ -26,17 +26,17 @@ class LoginParams extends ParamsModel<LoginParamsBody> {
 }
 
 @JsonSerializable(explicitToJson: true)
-class LoginParamsBody extends BaseBodyModel {
-  @JsonKey(name: "userName")
-  final String? userName;
-  @JsonKey(name: "password")
-  final String? password;
+class RefreshParamsBody extends BaseBodyModel {
+  @JsonKey(name: "accessToken")
+  final String? accessToken;
+  @JsonKey(name: "refreshToken")
+  final String? refreshToken;
 
-  LoginParamsBody({required this.userName, required this.password});
+  RefreshParamsBody({required this.accessToken, required this.refreshToken});
 
-  factory LoginParamsBody.fromJson(Map<String, dynamic> json) =>
-      _$LoginParamsBodyFromJson(json);
+  factory RefreshParamsBody.fromJson(Map<String, dynamic> json) =>
+      _$RefreshParamsBodyFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$LoginParamsBodyToJson(this);
+  Map<String, dynamic> toJson() => _$RefreshParamsBodyToJson(this);
 }

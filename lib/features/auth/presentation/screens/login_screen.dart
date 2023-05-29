@@ -206,6 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
         formKey: _formKey,
         errorMessage: AppStrings.usernameError.tr(),
         nameTextEditingController: _usernameTextEditingController,
+        fontSize: FontSize.s16,
       );
 
   List<Widget> _loginTitle() => [

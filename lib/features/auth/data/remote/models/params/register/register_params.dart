@@ -10,7 +10,7 @@ class RegisterParams extends ParamsModel<RegisterParamsBody> {
   Map<String, String>? get additionalHeaders => {};
 
   @override
-  RequestType? get requestType => RequestType.post;
+  RequestType get requestType => RequestType.post;
 
   @override
   String? get url => 'Authentication/Register';

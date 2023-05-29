@@ -16,7 +16,7 @@ abstract class ParamsModel<BodyModelType extends BaseBodyModel>
   Map<String, String>? get additionalHeaders;
 
   /// type of request : [RequestType.POST] or [RequestType.GET]
-  RequestType? get requestType;
+  RequestType get requestType;
 
   /// [url] to api endpoint (without base url)
   /// not url is without page number or length

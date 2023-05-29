@@ -309,6 +309,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         errorMessage: AppStrings.usernameError.tr(),
         nameTextEditingController: _usernameTextEditingController,
         readOnly: true,
+        fontSize: FontSize.s16,
       );
 
   Widget _genderSelection() => BlocBuilder<RegisterBloc, RegisterState>(
