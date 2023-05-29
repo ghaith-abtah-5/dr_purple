@@ -23,7 +23,7 @@ class Utils {
         msg: message,
         toastLength: Toast.LENGTH_LONG,
         backgroundColor: ColorManager.primary,
-        textColor: ColorManager.primary,
+        textColor: ColorManager.textPrimaryColor,
         gravity: ToastGravity.SNACKBAR,
       );
 

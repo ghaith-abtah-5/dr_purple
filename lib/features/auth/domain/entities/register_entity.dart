@@ -1,10 +1,11 @@
 import 'package:dr_purple/core/features/domain/entities/entity.dart';
 
 class RegisterEntity extends Entity {
-  final int? id;
+  final String? accessToken;
+  final String? refreshToken;
 
-  RegisterEntity({required this.id});
+  RegisterEntity({required this.accessToken, required this.refreshToken});
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [accessToken, refreshToken];
 }

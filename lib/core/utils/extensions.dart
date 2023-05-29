@@ -1,4 +1,6 @@
 import 'package:dr_purple/app/app_management/strings_manager.dart';
+import 'package:dr_purple/core/features/data/remote_data_source/models/params/params_model.dart';
+import 'package:dr_purple/core/features/data/remote_data_source/remote_data_source.dart';
 import 'package:dr_purple/core/utils/enums.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -30,6 +32,26 @@ extension GenderExt on Gender {
         return 1;
       case Gender.female:
         return 2;
+    }
+  }
+}
+
+extension HTTPRequestType on RequestType {
+  Future<Map<String, dynamic>> getHTTPRequestType(
+    RemoteDataSource remoteDataSource,
+    ParamsModel model,
+  ) async {
+    switch (this) {
+      case RequestType.post:
+        return await remoteDataSource.post(model);
+      case RequestType.get:
+        return await remoteDataSource.get(model);
+      case RequestType.mediaUpload:
+        return await remoteDataSource.uploadFile(model);
+      case RequestType.delete:
+        return <String, dynamic>{};
+      case RequestType.put:
+        return <String, dynamic>{};
     }
   }
 }

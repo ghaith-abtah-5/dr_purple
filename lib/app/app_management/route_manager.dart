@@ -4,6 +4,7 @@ import 'package:dr_purple/features/auth/presentation/screens/login_screen.dart';
 import 'package:dr_purple/features/auth/presentation/screens/register_screen.dart';
 import 'package:dr_purple/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:dr_purple/features/auth/presentation/screens/verify_account_screen.dart';
+import 'package:dr_purple/features/home/presentation/screens/home_screen.dart';
 import 'package:dr_purple/features/splash/presentation/screens/get_started_screen.dart';
 import 'package:dr_purple/features/splash/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +33,10 @@ class RouteGenerator {
       /// shared routes
       GoRoute(
         path: Routes.splashRoute,
-        builder: (BuildContext context, GoRouterState state) =>
-            const SplashScreen(),
+        builder: (BuildContext context, GoRouterState state) {
+          initSplashModule();
+          return const SplashScreen();
+        },
         routes: <GoRoute>[
           GoRoute(
             path: Routes.getStartedRoute,
@@ -42,8 +45,10 @@ class RouteGenerator {
           ),
           GoRoute(
             path: Routes.loginRoute,
-            builder: (BuildContext context, GoRouterState state) =>
-                const LoginScreen(),
+            builder: (BuildContext context, GoRouterState state) {
+              initLoginModule();
+              return const LoginScreen();
+            },
             routes: <GoRoute>[
               GoRoute(
                 path: Routes.forgotPasswordRoute,
@@ -74,6 +79,11 @@ class RouteGenerator {
                     const VerifyAccountScreen(),
               ),
             ],
+          ),
+          GoRoute(
+            path: Routes.homeRoute,
+            builder: (BuildContext context, GoRouterState state) =>
+                const HomeScreen(),
           ),
         ],
       ),

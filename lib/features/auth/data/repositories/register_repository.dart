@@ -22,12 +22,13 @@ class RegisterRepository extends IRegisterRepository {
     //if (await _networkInfo.isConnected) {
     try {
       final response = await _remoteDataSource.register(registerParams);
-      if (response.success ?? false) {
+      if (response.succsess ?? false) {
         return Right(response.toEntity());
       } else {
         return Left(
           ErrorEntity(
-            statusCode: response.code.numberOrZero(number: Constants.zero),
+            statusCode: int.parse(response.messageId!)
+                .numberOrZero(number: Constants.zero),
             message: response.message.messageOrEmpty(
               message: response.message.messageOrEmpty(
                 message: ResponseMessage.unKnown,
@@ -38,7 +39,7 @@ class RegisterRepository extends IRegisterRepository {
       }
     } catch (e) {
       if (kDebugMode) {
-        print("error while register: ${e.toString()}");
+        print("error while registering: ${e.toString()}");
       }
       return Left(ErrorHandler.handle(e).errorEntity);
     }

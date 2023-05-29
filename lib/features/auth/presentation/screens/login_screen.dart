@@ -6,11 +6,16 @@ import 'package:dr_purple/app/app_management/route_manager.dart';
 import 'package:dr_purple/app/app_management/strings_manager.dart';
 import 'package:dr_purple/app/app_management/theme/styles_manager.dart';
 import 'package:dr_purple/app/app_management/values_manager.dart';
+import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
+import 'package:dr_purple/core/utils/utils.dart';
 import 'package:dr_purple/core/widgets/buttons/dr_purple_app_button.dart';
-import 'package:dr_purple/core/widgets/text_fields/dr_purple_email_text_field.dart';
+import 'package:dr_purple/core/widgets/loading_overlay.dart';
+import 'package:dr_purple/core/widgets/text_fields/dr_purple_name_text_field.dart';
 import 'package:dr_purple/core/widgets/text_fields/dr_purple_password_text_field.dart';
+import 'package:dr_purple/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -23,14 +28,25 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late final TextEditingController _emailTextEditingController,
+  late final LoginBloc _loginBloc;
+  late final TextEditingController _usernameTextEditingController,
       _passwordTextEditingController;
 
   final _formKey = GlobalKey<FormState>();
 
   _bind() {
-    _emailTextEditingController = TextEditingController();
+    _loginBloc = instance<LoginBloc>();
+
+    _usernameTextEditingController = TextEditingController();
     _passwordTextEditingController = TextEditingController();
+
+    _usernameTextEditingController.addListener(() => _loginBloc
+      ..add(SetLoginUsername(_usernameTextEditingController.text))
+      ..add(LoginValidateInputEvent()));
+
+    _passwordTextEditingController.addListener(() => _loginBloc
+      ..add(SetLoginPassword(_passwordTextEditingController.text))
+      ..add(LoginValidateInputEvent()));
   }
 
   @override
@@ -40,12 +56,17 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _disposeControllers() {
-    _emailTextEditingController.dispose();
+    _usernameTextEditingController.dispose();
     _passwordTextEditingController.dispose();
+  }
+
+  _disposeBloc() async {
+    await _loginBloc.close();
   }
 
   @override
   void dispose() {
+    _disposeBloc();
     _disposeControllers();
     super.dispose();
   }
@@ -56,11 +77,33 @@ class _LoginScreenState extends State<LoginScreen> {
         body: _screenContent(context),
       );
 
-  Widget _screenContent(BuildContext context) => Stack(
-        children: [
-          _loginDataView(context),
-          _loginImage(context),
-        ],
+  Widget _screenContent(BuildContext context) => BlocProvider(
+        create: (context) => _loginBloc,
+        child: BlocListener<LoginBloc, LoginState>(
+          listener: (context, state) async {
+            if (state is LoginLoading) {
+              if (state.loadingType == LoginBlocStateType.server) {
+                LoadingOverlay.of(context).show();
+              }
+            } else if (state is LoginLoaded) {
+              if (state.loadedType == LoginBlocStateType.server) {
+                LoadingOverlay.of(context).hide();
+                context.pushReplacement("/${Routes.homeRoute}");
+              }
+            } else if (state is LoginError) {
+              if (state.errorType == LoginBlocStateType.server) {
+                LoadingOverlay.of(context).hide();
+              }
+              await Utils.showToast(state.errorMessage);
+            }
+          },
+          child: Stack(
+            children: [
+              _loginDataView(context),
+              _loginImage(context),
+            ],
+          ),
+        ),
       );
 
   Widget _loginImage(BuildContext context) => Container(
@@ -94,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ..._loginTitle(),
-            _emailTextField(),
+            _usernameTextField(),
             SizedBox(height: AppSize.s2.h),
             _passwordTextField(),
             SizedBox(height: AppSize.s1.h),
@@ -130,9 +173,14 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       );
 
-  Widget _loginButton() => DrPurpleAppButton(
-        onPress: () {},
-        title: AppStrings.login.tr(),
+  Widget _loginButton() => BlocBuilder<LoginBloc, LoginState>(
+        builder: (context, state) => DrPurpleAppButton(
+          onPress: _loginBloc.inputsValid
+              ? () => _loginBloc.add(LogUserInEvent())
+              : () async =>
+                  await Utils.showToast(AppStrings.missingInfoError.tr()),
+          title: AppStrings.login.tr(),
+        ),
       );
 
   Widget _forgetPasswordClickable(BuildContext context) => Align(
@@ -153,9 +201,12 @@ class _LoginScreenState extends State<LoginScreen> {
         formKey: _formKey,
       );
 
-  Widget _emailTextField() => DrPurpleEmailTextField(
-        emailTextEditingController: _emailTextEditingController,
+  Widget _usernameTextField() => DrPurpleNameTextField(
+        label: AppStrings.usernameTextFieldLabel.tr(),
         formKey: _formKey,
+        errorMessage: AppStrings.usernameError.tr(),
+        nameTextEditingController: _usernameTextEditingController,
+        fontSize: FontSize.s16,
       );
 
   List<Widget> _loginTitle() => [

@@ -13,7 +13,7 @@ class DrPurpleAppButton extends StatelessWidget {
   }) : super(key: key);
 
   final String title;
-  final Function() onPress;
+  final Function()? onPress;
   final bool switchColors;
 
   @override

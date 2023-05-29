@@ -8,29 +8,31 @@ part of 'register_api_response.dart';
 
 RegisterAPIResponse _$RegisterAPIResponseFromJson(Map<String, dynamic> json) =>
     RegisterAPIResponse(
-      result: json['result'] == null
+      result: json['data'] == null
           ? null
-          : RegisterAPIResult.fromJson(json['result'] as Map<String, dynamic>),
+          : RegisterAPIResult.fromJson(json['data'] as Map<String, dynamic>),
     )
-      ..success = json['success'] as bool?
-      ..code = json['code'] as int?
+      ..succsess = json['succsess'] as bool?
+      ..messageId = json['messageId'] as String?
       ..message = json['message'] as String?;
 
 Map<String, dynamic> _$RegisterAPIResponseToJson(
         RegisterAPIResponse instance) =>
     <String, dynamic>{
-      'success': instance.success,
-      'code': instance.code,
+      'succsess': instance.succsess,
+      'messageId': instance.messageId,
       'message': instance.message,
-      'result': instance.result,
+      'data': instance.result,
     };
 
 RegisterAPIResult _$RegisterAPIResultFromJson(Map<String, dynamic> json) =>
     RegisterAPIResult(
-      id: json['id'] as int?,
+      accessToken: json['accessToken'] as String?,
+      refreshToken: json['refreshToken'] as String?,
     );
 
 Map<String, dynamic> _$RegisterAPIResultToJson(RegisterAPIResult instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'accessToken': instance.accessToken,
+      'refreshToken': instance.refreshToken,
     };

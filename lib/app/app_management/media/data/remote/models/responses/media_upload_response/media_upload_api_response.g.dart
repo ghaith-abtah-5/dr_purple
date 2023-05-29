@@ -14,15 +14,15 @@ MediaUploadAPIResponse _$MediaUploadAPIResponseFromJson(
           : MediaUploadAPIResult.fromJson(
               json['result'] as Map<String, dynamic>),
     )
-      ..success = json['success'] as bool?
-      ..code = json['code'] as int?
+      ..succsess = json['succsess'] as bool?
+      ..messageId = json['messageId'] as String?
       ..message = json['message'] as String?;
 
 Map<String, dynamic> _$MediaUploadAPIResponseToJson(
         MediaUploadAPIResponse instance) =>
     <String, dynamic>{
-      'success': instance.success,
-      'code': instance.code,
+      'succsess': instance.succsess,
+      'messageId': instance.messageId,
       'message': instance.message,
       'result': instance.result,
     };

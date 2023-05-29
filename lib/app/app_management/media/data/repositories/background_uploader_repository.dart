@@ -22,12 +22,13 @@ class BackgroundUploaderRepository extends IBackgroundUploaderRepository {
     // if (await _networkInfo.isConnected) {
     try {
       final response = await _remoteDataSource.enqueueFile(mediaUploadParams);
-      if (response.success ?? false) {
+      if (response.succsess ?? false) {
         return Right(response.toEntity());
       } else {
         return Left(
           ErrorEntity(
-            statusCode: response.code.numberOrZero(number: Constants.zero),
+            statusCode: int.parse(response.messageId!)
+                .numberOrZero(number: Constants.zero),
             message: response.message.messageOrEmpty(
               message: response.message.messageOrEmpty(
                 message: ResponseMessage.unKnown,

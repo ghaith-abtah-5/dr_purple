@@ -1,5 +1,6 @@
 import 'package:dr_purple/app/app_configurations/assets.dart';
 import 'package:dr_purple/app/app_configurations/scroll_behavior.dart';
+import 'package:dr_purple/app/app_management/route_manager.dart';
 import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:dr_purple/app/app_management/font_manager.dart';
 import 'package:dr_purple/app/app_management/strings_manager.dart';
@@ -12,7 +13,8 @@ import 'package:dr_purple/core/widgets/buttons/dr_purple_back_button.dart';
 import 'package:dr_purple/core/widgets/text_fields/dr_purple_verification_code_text_field.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:nb_utils/nb_utils.dart';
+import 'package:go_router/go_router.dart';
+import 'package:nb_utils/nb_utils.dart' as nb;
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class VerifyAccountScreen extends StatefulWidget {
@@ -38,8 +40,8 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
   Widget _verifyAccountDataView(BuildContext context) => Container(
         padding: EdgeInsets.only(top: AppPadding.p3.h),
         height: context.height(),
-        decoration:
-            boxDecorationWithRoundedCorners(backgroundColor: context.cardColor),
+        decoration: nb.boxDecorationWithRoundedCorners(
+            backgroundColor: context.cardColor),
         child: ScrollConfiguration(
           behavior: StretchScrollBehavior(),
           child: SingleChildScrollView(
@@ -79,7 +81,9 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
           SizedBox(height: AppSize.s3.h),
           DrPurpleAppButton(
             title: AppStrings.confirm.tr(),
-            onPress: () {},
+            onPress: () => GoRouter.of(context)
+              ..pop()
+              ..pushReplacement("/${Routes.homeRoute}"),
           ),
         ],
       );

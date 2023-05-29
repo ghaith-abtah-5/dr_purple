@@ -10,7 +10,7 @@ class MediaUploadParams extends ParamsModel<MediaUploadParamsBody> {
   Map<String, String>? get additionalHeaders => {};
 
   @override
-  RequestType? get requestType => RequestType.post;
+  RequestType get requestType => RequestType.mediaUpload;
 
   @override
   String? get url => "_url";

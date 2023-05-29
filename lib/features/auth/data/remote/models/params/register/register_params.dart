@@ -10,7 +10,7 @@ class RegisterParams extends ParamsModel<RegisterParamsBody> {
   Map<String, String>? get additionalHeaders => {};
 
   @override
-  RequestType? get requestType => RequestType.post;
+  RequestType get requestType => RequestType.post;
 
   @override
   String? get url => 'Authentication/Register';
@@ -37,6 +37,8 @@ class RegisterParamsBody extends BaseBodyModel {
   final String? password;
   @JsonKey(name: "contactNumber")
   final String? contactNumber;
+  @JsonKey(name: "email")
+  final String? email;
   @JsonKey(name: "address")
   final String? address;
   @JsonKey(name: "gender")
@@ -50,6 +52,7 @@ class RegisterParamsBody extends BaseBodyModel {
     required this.contactNumber,
     required this.address,
     required this.gender,
+    required this.email,
   });
 
   factory RegisterParamsBody.fromJson(Map<String, dynamic> json) =>

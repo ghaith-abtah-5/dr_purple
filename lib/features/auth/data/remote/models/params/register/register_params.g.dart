@@ -15,6 +15,7 @@ RegisterParamsBody _$RegisterParamsBodyFromJson(Map<String, dynamic> json) =>
       contactNumber: json['contactNumber'] as String?,
       address: json['address'] as String?,
       gender: json['gender'] as int?,
+      email: json['email'] as String?,
     );
 
 Map<String, dynamic> _$RegisterParamsBodyToJson(RegisterParamsBody instance) =>
@@ -24,6 +25,7 @@ Map<String, dynamic> _$RegisterParamsBodyToJson(RegisterParamsBody instance) =>
       'userName': instance.userName,
       'password': instance.password,
       'contactNumber': instance.contactNumber,
+      'email': instance.email,
       'address': instance.address,
       'gender': instance.gender,
     };

@@ -14,10 +14,14 @@ class DrPurpleNameTextField extends StatelessWidget {
     required this.nameTextEditingController,
     required this.formKey,
     required this.errorMessage,
+    this.readOnly,
+    this.fontSize,
   }) : super(key: key);
 
   final String label;
   final String errorMessage;
+  final bool? readOnly;
+  final double? fontSize;
   final TextEditingController nameTextEditingController;
   final GlobalKey<FormState> formKey;
 
@@ -26,10 +30,11 @@ class DrPurpleNameTextField extends StatelessWidget {
         controller: nameTextEditingController,
         textFieldType: TextFieldType.NAME,
         textInputAction: TextInputAction.next,
+        readOnly: readOnly,
         decoration: InputDecoration(
           labelText: label,
           labelStyle: getRegularTextStyle(
-            fontSize: FontSize.s14,
+            fontSize: fontSize ?? FontSize.s14,
             color: ColorManager.textSecondaryColor,
           ),
           errorMaxLines: 2,

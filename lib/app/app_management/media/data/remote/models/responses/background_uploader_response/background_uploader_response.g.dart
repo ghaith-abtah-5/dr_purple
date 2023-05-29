@@ -11,15 +11,15 @@ BackgroundUploaderResponse _$BackgroundUploaderResponseFromJson(
     BackgroundUploaderResponse(
       taskId: json['taskId'] as String?,
     )
-      ..success = json['success'] as bool?
-      ..code = json['code'] as int?
+      ..succsess = json['succsess'] as bool?
+      ..messageId = json['messageId'] as String?
       ..message = json['message'] as String?;
 
 Map<String, dynamic> _$BackgroundUploaderResponseToJson(
         BackgroundUploaderResponse instance) =>
     <String, dynamic>{
-      'success': instance.success,
-      'code': instance.code,
+      'succsess': instance.succsess,
+      'messageId': instance.messageId,
       'message': instance.message,
       'taskId': instance.taskId,
     };

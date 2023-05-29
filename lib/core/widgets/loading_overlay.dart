@@ -1,6 +1,10 @@
+import 'dart:ui';
+
+import 'package:dr_purple/app/app_configurations/assets.dart';
 import 'package:dr_purple/app/app_management/theme/color_manager.dart';
+import 'package:dr_purple/app/app_management/values_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
 class LoadingOverlay {
   BuildContext _context;
@@ -35,22 +39,32 @@ class _FullScreenLoader extends StatefulWidget {
 
 class _FullScreenLoaderState extends State<_FullScreenLoader> {
   @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Container(
-        color: Colors.white.withAlpha(15),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            SpinKitSpinningLines(
-              size: 100,
-              color: ColorManager.darkPrimary,
-              lineWidth: 4,
+  Widget build(BuildContext context) => WillPopScope(
+        onWillPop: () async => false,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 2,
+            sigmaY: 2,
+          ),
+          child: WidgetAnimator(
+            atRestEffect:
+                WidgetRestingEffects.size(duration: AppDurations.slow),
+            child: Center(
+              child: Container(
+                alignment: Alignment.center,
+                width: 160,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: ColorManager.white,
+                ),
+                child: Image.asset(
+                  ImageAssets.appLogo,
+                  height: 150,
+                  width: 150,
+                ),
+              ),
             ),
-          ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }
