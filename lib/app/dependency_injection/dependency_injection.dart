@@ -9,7 +9,16 @@ import 'package:dr_purple/app/storage/app_preferences.dart';
 import 'package:dr_purple/core/network/dio_factory.dart';
 import 'package:dr_purple/core/network/network_info.dart';
 import 'package:dr_purple/core/services/notification_service/notification_service.dart';
+import 'package:dr_purple/features/auth/data/remote/data_sources/login_remote_data_source.dart';
+import 'package:dr_purple/features/auth/data/remote/data_sources/register_remote_data_source.dart';
+import 'package:dr_purple/features/auth/data/repositories/login_repository.dart';
+import 'package:dr_purple/features/auth/data/repositories/register_repository.dart';
+import 'package:dr_purple/features/auth/domain/use_cases/login_use_case.dart';
+import 'package:dr_purple/features/auth/domain/use_cases/register_use_case.dart';
 import 'package:dr_purple/features/auth/presentation/bloc/country_code_cubit/country_code_cubit.dart';
+import 'package:dr_purple/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
+import 'package:dr_purple/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
+import 'package:dr_purple/features/splash/presentation/blocs/splash_bloc/splash_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -112,10 +121,66 @@ void neededInBackgroundUploaderModule() {
   }
 }
 
+void initSplashModule() {
+  if (!GetIt.I.isRegistered<SplashBloc>()) {
+    ///register Splash Bloc as factory
+    instance.registerFactory<SplashBloc>(
+        () => SplashBloc(instance<AppPreferences>()));
+  }
+}
+
 void initRegisterModule() {
+  if (!GetIt.I.isRegistered<RegisterRemoteDataSource>()) {
+    ///register register remote data source as factory
+    instance.registerFactory<RegisterRemoteDataSource>(
+        () => RegisterRemoteDataSource(
+              instance<DioFactory>().getDio(),
+              instance<AppPreferences>(),
+            ));
+  }
+  if (!GetIt.I.isRegistered<RegisterRepository>()) {
+    ///register register repository as factory
+    instance.registerFactory<RegisterRepository>(() => RegisterRepository(
+        instance<RegisterRemoteDataSource>(), instance<NetworkInfo>()));
+  }
+  if (!GetIt.I.isRegistered<RegisterUseCase>()) {
+    ///register register use case as factory
+    instance.registerFactory<RegisterUseCase>(
+        () => RegisterUseCase(instance<RegisterRepository>()));
+  }
+  if (!GetIt.I.isRegistered<RegisterBloc>()) {
+    ///register register bloc as factory
+    instance.registerFactory<RegisterBloc>(() =>
+        RegisterBloc(instance<RegisterUseCase>(), instance<AppPreferences>()));
+  }
   if (!GetIt.I.isRegistered<CountryCodeCubit>()) {
     ///register Country Code Cubit as factory
     instance.registerFactory<CountryCodeCubit>(() => CountryCodeCubit());
+  }
+}
+
+void initLoginModule() {
+  if (!GetIt.I.isRegistered<LoginRemoteDataSource>()) {
+    ///register Login remote data source as factory
+    instance.registerFactory<LoginRemoteDataSource>(() => LoginRemoteDataSource(
+          instance<DioFactory>().getDio(),
+          instance<AppPreferences>(),
+        ));
+  }
+  if (!GetIt.I.isRegistered<LoginRepository>()) {
+    ///register Login repository as factory
+    instance.registerFactory<LoginRepository>(() => LoginRepository(
+        instance<LoginRemoteDataSource>(), instance<NetworkInfo>()));
+  }
+  if (!GetIt.I.isRegistered<LoginUseCase>()) {
+    ///register Login use case as factory
+    instance.registerFactory<LoginUseCase>(
+        () => LoginUseCase(instance<LoginRepository>()));
+  }
+  if (!GetIt.I.isRegistered<LoginBloc>()) {
+    ///register Login bloc as factory
+    instance.registerFactory<LoginBloc>(
+        () => LoginBloc(instance<LoginUseCase>(), instance<AppPreferences>()));
   }
 }
 

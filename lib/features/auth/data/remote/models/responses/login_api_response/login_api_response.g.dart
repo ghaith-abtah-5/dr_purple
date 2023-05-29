@@ -1,23 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'register_api_response.dart';
+part of 'login_api_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RegisterAPIResponse _$RegisterAPIResponseFromJson(Map<String, dynamic> json) =>
-    RegisterAPIResponse(
+LoginAPIResponse _$LoginAPIResponseFromJson(Map<String, dynamic> json) =>
+    LoginAPIResponse(
       result: json['data'] == null
           ? null
-          : RegisterAPIResult.fromJson(json['data'] as Map<String, dynamic>),
+          : LoginAPIResult.fromJson(json['data'] as Map<String, dynamic>),
     )
       ..succsess = json['succsess'] as bool?
       ..messageId = json['messageId'] as String?
       ..message = json['message'] as String?;
 
-Map<String, dynamic> _$RegisterAPIResponseToJson(
-        RegisterAPIResponse instance) =>
+Map<String, dynamic> _$LoginAPIResponseToJson(LoginAPIResponse instance) =>
     <String, dynamic>{
       'succsess': instance.succsess,
       'messageId': instance.messageId,
@@ -25,13 +24,13 @@ Map<String, dynamic> _$RegisterAPIResponseToJson(
       'data': instance.result,
     };
 
-RegisterAPIResult _$RegisterAPIResultFromJson(Map<String, dynamic> json) =>
-    RegisterAPIResult(
+LoginAPIResult _$LoginAPIResultFromJson(Map<String, dynamic> json) =>
+    LoginAPIResult(
       accessToken: json['accessToken'] as String?,
       refreshToken: json['refreshToken'] as String?,
     );
 
-Map<String, dynamic> _$RegisterAPIResultToJson(RegisterAPIResult instance) =>
+Map<String, dynamic> _$LoginAPIResultToJson(LoginAPIResult instance) =>
     <String, dynamic>{
       'accessToken': instance.accessToken,
       'refreshToken': instance.refreshToken,

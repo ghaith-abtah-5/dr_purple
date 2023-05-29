@@ -12,6 +12,7 @@ class AppPreferences {
   static const userSignedInKey = "USER_SIGNED_IN_KEY";
   static const lastRouteKey = "LAST_ROUTE_KEY";
   static const darkThemeKey = "DARK_THEME_KEY";
+  static const openFirstTimeKey = "OPEN_FIRST_TIME_KEY";
 
   Language? getAppLanguage() {
     String? language = _sharedPreferences.getString(languageKey);
@@ -61,6 +62,13 @@ class AppPreferences {
       await _sharedPreferences.setBool(darkThemeKey, darkThemeValue);
 
   bool? getDarkTheme() => _sharedPreferences.getBool(darkThemeKey);
+
+  Future<void> setOpenFirstTime({
+    required bool openFirstTimeValue,
+  }) async =>
+      await _sharedPreferences.setBool(openFirstTimeKey, openFirstTimeValue);
+
+  bool getOpenFirstTimeValue() => _sharedPreferences.getBool(openFirstTimeKey) ?? true;
 
   Future<void> reload() async => await _sharedPreferences.reload();
 

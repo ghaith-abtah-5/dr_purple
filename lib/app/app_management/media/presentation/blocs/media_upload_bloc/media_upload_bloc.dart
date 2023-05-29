@@ -83,7 +83,7 @@ class MediaUploadBloc extends Bloc<MediaUploadEvent, MediaUploadState> {
       final response = MediaUploadAPIResponse.fromString(event.response);
       int idx =
           _media.indexWhere((element) => element.mediaTaskId == event.taskId);
-      if (response.success == true) {
+      if (response.succsess == true) {
         _media[idx] = _media[idx].copyWith(
           uploadState: UploadState.done,
           progress: null,

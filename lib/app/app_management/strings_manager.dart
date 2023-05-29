@@ -61,6 +61,7 @@ class AppStrings {
   static const remove = "remove";
   static const confirm = "confirm";
   static const resend = "resend";
+  static const missingInfoError = "missing_info_error";
 
   /// get started screen
   static const firstSlideTitle = "first_slide_title";
@@ -96,6 +97,7 @@ class AppStrings {
   static const phoneNumberError = "phone_number_error";
   static const firstNameError = "first_name_error";
   static const lastNameError = "last_name_error";
+  static const usernameError = "username_error";
 
   /// forgot password screen
   static const forgotPassword = "forgot_password";

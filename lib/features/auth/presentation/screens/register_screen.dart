@@ -11,14 +11,18 @@ import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
 import 'package:dr_purple/core/utils/constants.dart';
 import 'package:dr_purple/core/utils/enums.dart';
 import 'package:dr_purple/core/utils/extensions.dart';
+import 'package:dr_purple/core/utils/utils.dart';
 import 'package:dr_purple/core/widgets/buttons/dr_purple_app_button.dart';
 import 'package:dr_purple/core/widgets/country_code_picker/src/fl_country_code_picker.dart';
 import 'package:dr_purple/core/widgets/dr_purple_drop_down_menu.dart';
+import 'package:dr_purple/core/widgets/loading_overlay.dart';
 import 'package:dr_purple/core/widgets/text_fields/dr_purple_email_text_field.dart';
 import 'package:dr_purple/core/widgets/text_fields/dr_purple_first_last_name_text_fields.dart';
+import 'package:dr_purple/core/widgets/text_fields/dr_purple_name_text_field.dart';
 import 'package:dr_purple/core/widgets/text_fields/dr_purple_password_text_field.dart';
 import 'package:dr_purple/core/widgets/text_fields/dr_purple_phone_number_text_field.dart';
 import 'package:dr_purple/features/auth/presentation/bloc/country_code_cubit/country_code_cubit.dart';
+import 'package:dr_purple/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,29 +39,70 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  late final FlCountryCodePicker _countryPicker;
   late final CountryCodeCubit _countryCodeCubit;
+  late final RegisterBloc _registerBloc;
+  late final FlCountryCodePicker _countryPicker;
   late final TextEditingController _emailTextEditingController,
       _passwordTextEditingController,
       _phoneNumberTextEditingController,
+      _addressTextEditingController,
+      _usernameTextEditingController,
       _firstNameTextEditingController,
       _lastNameTextEditingController;
 
   final _formKey = GlobalKey<FormState>();
 
   _bind() {
+    _registerBloc = instance<RegisterBloc>();
+    _countryCodeCubit = instance<CountryCodeCubit>();
+
     _emailTextEditingController = TextEditingController();
     _passwordTextEditingController = TextEditingController();
     _phoneNumberTextEditingController = TextEditingController();
+    _addressTextEditingController = TextEditingController();
     _firstNameTextEditingController = TextEditingController();
     _lastNameTextEditingController = TextEditingController();
+    _usernameTextEditingController = TextEditingController();
 
-    _countryCodeCubit = instance<CountryCodeCubit>();
     _countryPicker = const FlCountryCodePicker(
         filteredCountries: ["SY"], showSearchBar: false);
-  }
 
-  Gender gender = Gender.male;
+    _emailTextEditingController.addListener(() => _registerBloc
+      ..add(SetRegisterEmail(_emailTextEditingController.text))
+      ..add(RegisterValidateInputEvent()));
+
+    _passwordTextEditingController.addListener(() => _registerBloc
+      ..add(SetRegisterPassword(_passwordTextEditingController.text))
+      ..add(RegisterValidateInputEvent()));
+
+    _phoneNumberTextEditingController.addListener(() => _registerBloc
+      ..add(SetRegisterPhoneNumber(_phoneNumberTextEditingController.text))
+      ..add(RegisterValidateInputEvent()));
+
+    _addressTextEditingController.addListener(() => _registerBloc
+      ..add(SetRegisterAddress(_addressTextEditingController.text))
+      ..add(RegisterValidateInputEvent()));
+
+    _firstNameTextEditingController.addListener(() {
+      _registerBloc
+        ..add(SetRegisterFirstName(_firstNameTextEditingController.text))
+        ..add(RegisterValidateInputEvent());
+      _usernameTextEditingController.text =
+          "${_firstNameTextEditingController.text}_${_lastNameTextEditingController.text}";
+    });
+
+    _lastNameTextEditingController.addListener(() {
+      _registerBloc
+        ..add(SetRegisterLastName(_lastNameTextEditingController.text))
+        ..add(RegisterValidateInputEvent());
+      _usernameTextEditingController.text =
+          "${_firstNameTextEditingController.text}_${_lastNameTextEditingController.text}";
+    });
+
+    _usernameTextEditingController.addListener(() => _registerBloc
+      ..add(SetRegisterUsername(_usernameTextEditingController.text))
+      ..add(RegisterValidateInputEvent()));
+  }
 
   @override
   void initState() {
@@ -73,7 +118,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _lastNameTextEditingController.dispose();
   }
 
-  _disposeCubit() async => await _countryCodeCubit.close();
+  _disposeCubit() async {
+    await _countryCodeCubit.close();
+    await _registerBloc.close();
+  }
 
   @override
   void dispose() {
@@ -88,13 +136,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
         body: _screenContent(context),
       );
 
-  Widget _screenContent(BuildContext context) => BlocProvider(
-        create: (context) => _countryCodeCubit,
-        child: Stack(
-          children: [
-            _registerDataView(context),
-            _registerImage(context),
-          ],
+  Widget _screenContent(BuildContext context) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => _countryCodeCubit),
+          BlocProvider(create: (context) => _registerBloc),
+        ],
+        child: BlocListener<RegisterBloc, RegisterState>(
+          listener: (context, state) async {
+            if (state is RegisterLoading) {
+              if (state.loadingType == RegisterBlocStateType.server) {
+                LoadingOverlay.of(context).show();
+              }
+            } else if (state is RegisterLoaded) {
+              if (state.loadedType == RegisterBlocStateType.server) {
+                LoadingOverlay.of(context).hide();
+                context.push(
+                    "${GoRouter.of(context).location}/${Routes.verifyAccountRoute}");
+              }
+            } else if (state is RegisterError) {
+              if (state.errorType == RegisterBlocStateType.server) {
+                LoadingOverlay.of(context).hide();
+              }
+              await Utils.showToast(state.errorMessage);
+            }
+          },
+          child: Stack(
+            children: [
+              _registerDataView(context),
+              _registerImage(context),
+            ],
+          ),
         ),
       );
 
@@ -137,6 +208,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             SizedBox(height: AppSize.s2.h),
             _nameTextFields(),
             SizedBox(height: AppSize.s2.h),
+            _usernameTextField(),
+            SizedBox(height: AppSize.s2.h),
             _addressTextField(),
             SizedBox(height: AppSize.s2.h),
             _genderSelection(),
@@ -171,10 +244,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ],
       );
 
-  Widget _registerButton() => DrPurpleAppButton(
-        title: AppStrings.register.tr(),
-        onPress: () => context.push(
-            "${GoRouter.of(context).location}/${Routes.verifyAccountRoute}"),
+  Widget _registerButton() => BlocBuilder<RegisterBloc, RegisterState>(
+        builder: (context, state) => DrPurpleAppButton(
+          title: AppStrings.register.tr(),
+          onPress: _registerBloc.inputsValid
+              ? () => _registerBloc.add(RegisterUserEvent())
+              : () async =>
+                  await Utils.showToast(AppStrings.missingInfoError.tr()),
+        ),
       );
 
   Widget _passwordTextField() => DrPurplePasswordTextField(
@@ -195,6 +272,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
   Widget _addressTextField() => AppTextField(
+        controller: _addressTextEditingController,
         textFieldType: TextFieldType.MULTILINE,
         textInputAction: TextInputAction.done,
         isValidationRequired: false,
@@ -225,28 +303,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
         formKey: _formKey,
       );
 
-  Widget _genderSelection() => DrPurpleDropDownMenu<Gender>(
-        title: AppStrings.gender.tr(),
-        items: Constants.genders
-            .map(
-              (item) => DropdownMenuItem<Gender>(
-                value: item,
-                child: Text(
-                  item.getLocalizedString(),
-                  style: getRegularTextStyle(
-                    fontSize: FontSize.s16,
-                    color: instance<ThemeCubit>().isThemeDark
-                        ? ColorManager.white
-                        : ColorManager.primary,
+  Widget _usernameTextField() => DrPurpleNameTextField(
+        label: AppStrings.usernameTextFieldLabel.tr(),
+        formKey: _formKey,
+        errorMessage: AppStrings.usernameError.tr(),
+        nameTextEditingController: _usernameTextEditingController,
+        readOnly: true,
+      );
+
+  Widget _genderSelection() => BlocBuilder<RegisterBloc, RegisterState>(
+        buildWhen: (prev, state) =>
+            state is RegisterLoaded &&
+            state.loadedType == RegisterBlocStateType.genderSelected,
+        builder: (context, state) => DrPurpleDropDownMenu<Gender>(
+          title: AppStrings.gender.tr(),
+          items: Constants.genders
+              .map(
+                (item) => DropdownMenuItem<Gender>(
+                  value: item,
+                  child: Text(
+                    item.getLocalizedString(),
+                    style: getRegularTextStyle(
+                      fontSize: FontSize.s16,
+                      color: instance<ThemeCubit>().isThemeDark
+                          ? ColorManager.white
+                          : ColorManager.primary,
+                    ),
                   ),
                 ),
-              ),
-            )
-            .toList(),
-        value: gender,
-        onChanged: (item) => setState(() {
-          gender = item!;
-        }),
+              )
+              .toList(),
+          value: _registerBloc.selectedGender,
+          onChanged: (selectedGender) =>
+              _registerBloc.add(SetRegisterGender(selectedGender!)),
+        ),
       );
 
   List<Widget> _registerTitle() => [
