@@ -61,7 +61,14 @@ class AppStrings {
   static const remove = "remove";
   static const confirm = "confirm";
   static const resend = "resend";
+  static const homeNav = "home_nav";
+  static const appointmentsNav = "appointments_nav";
+  static const notificationsNav = "notifications_nav";
+  static const settingsNav = "settings_nav";
   static const missingInfoError = "missing_info_error";
+  static const syrianArabRepublic = "syrian_arab_republic";
+  static const markAllRead = "mark_all_read";
+  static const deleteAll = "delete_all";
 
   /// get started screen
   static const firstSlideTitle = "first_slide_title";
@@ -114,4 +121,13 @@ class AppStrings {
 
   /// verify account screen
   static const verifyAccount = "verify_account";
+
+  /// setting screen
+  static const darkTheme = "dark_theme";
+  static const deleteAccount = "delete_account";
+  static const deleteAccountDesc = "delete_account_desc";
+  static const logout = "logout";
+  static const logoutDesc = "logout_desc";
+  static const profile = "profile";
+  static const language = "language";
 }

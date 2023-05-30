@@ -44,7 +44,14 @@
   "remove": "Remove",
   "confirm": "Confirm",
   "resend": "Re-send",
+  "home_nav": "Home",
+  "appointments_nav": "Appointments",
+  "notifications_nav": "Notifications",
+  "settings_nav": "Settings",
   "missing_info_error": "Please complete the missing information",
+  "syrian_arab_republic": "Syrian Arab Republic",
+  "mark_all_read": "Mark all read",
+  "delete_all": "Delete all",
   "first_slide_title": "Easy Appointment",
   "first_slide_subtitle": "Pick the appointment to fit your schedule",
   "second_slide_title": "Offers",
@@ -83,5 +90,12 @@
   "new_password": "New password",
   "new_password_text_field_label": "Your new password",
   "reenter_new_password_text_field_label": "Repeat your new password",
-  "verify_account": "Verify your account"
+  "verify_account": "Verify your account",
+  "dark_theme": "Dark theme",
+  "delete_account": "Delete account",
+  "delete_account_desc": "Are you sure you want to delete your account?",
+  "logout": "Logout",
+  "logout_desc": "Are you sure you want to logout?",
+  "profile": "Profile",
+  "language": "Language"
 }

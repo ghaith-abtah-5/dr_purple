@@ -8,8 +8,11 @@ class DrPurpleBackButton extends StatelessWidget {
   final Color color;
 
   @override
-  Widget build(BuildContext context) => Align(
-        alignment: Alignment.topLeft,
-        child: Icon(Icons.arrow_back_ios, color: color, size: AppSize.s22),
-      ).paddingOnly(top: 24.0, left: 24.0).onTap(() => context.pop());
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsetsDirectional.only(top: 24.0, start: 24.0),
+        child: Align(
+          alignment: Alignment.topLeft,
+          child: Icon(Icons.arrow_back_ios, color: color, size: AppSize.s22),
+        ).onTap(() => context.pop()),
+      );
 }

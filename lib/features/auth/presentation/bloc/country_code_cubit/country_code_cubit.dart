@@ -1,4 +1,6 @@
+import 'package:dr_purple/app/app_management/strings_manager.dart';
 import 'package:dr_purple/core/widgets/country_code_picker/src/models/country_code.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,8 +10,8 @@ class CountryCodeCubit extends Cubit<CountryCodeState> {
   CountryCodeCubit() : super(CountryCodeInitial());
 
   CountryCode countryCode = CountryCode.fromMap(
-    const {
-      "name": "Syrian Arab Republic",
+    {
+      "name": AppStrings.syrianArabRepublic.tr(),
       "code": "SY",
       "dial_code": "+963",
     },
