@@ -5,6 +5,10 @@ const String animationAssetsBaseRoute = "assets/animations/";
 /// images
 class ImageAssets {
   static const String appLogo = "${imageAssetsBaseRoute}app_logo.png";
+  static const String femaleProfileImage =
+      "${imageAssetsBaseRoute}female_profile_image.png";
+  static const String themeImage =
+      "${imageAssetsBaseRoute}settings/theme_image.png";
   static const String firstSlideImage =
       "${imageAssetsBaseRoute}get_started/first_slide.png";
   static const String secondSlideImage =
@@ -14,6 +18,9 @@ class ImageAssets {
   static const String authImage = "${imageAssetsBaseRoute}auth/auth_image.png";
   static const String verifyAccountImage =
       "${imageAssetsBaseRoute}auth/verify_account_image.png";
+
+  /// dummy
+  static const String doctorImage = "${imageAssetsBaseRoute}dummy/doctor.png";
 }
 
 /// icons

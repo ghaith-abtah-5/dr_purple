@@ -1,4 +1,3 @@
-import 'package:dr_purple/app/app_configurations/scroll_behavior.dart';
 import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:dr_purple/app/app_management/font_manager.dart';
 import 'package:dr_purple/app/app_management/route_manager.dart';
@@ -80,23 +79,20 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         decoration:
             boxDecorationWithRoundedCorners(backgroundColor: context.cardColor),
         height: double.infinity,
-        child: ScrollConfiguration(
-          behavior: StretchScrollBehavior(),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ..._forgetPasswordTitle(),
-                _phoneNumberTextField(),
-                SizedBox(height: AppSize.s4.h),
-                DrPurpleAppButton(
-                  title: AppStrings.confirm.tr(),
-                  onPress: () => context.push(
-                      "${GoRouter.of(context).location}/${Routes.resetPasswordRoute}"),
-                ),
-              ],
-            ).paddingSymmetric(horizontal: AppSize.s4.w),
-          ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ..._forgetPasswordTitle(),
+              _phoneNumberTextField(),
+              SizedBox(height: AppSize.s4.h),
+              DrPurpleAppButton(
+                title: AppStrings.confirm.tr(),
+                onPress: () => context.push(
+                    "${GoRouter.of(context).location}/${Routes.resetPasswordRoute}"),
+              ),
+            ],
+          ).paddingSymmetric(horizontal: AppSize.s4.w),
         ),
       );
 

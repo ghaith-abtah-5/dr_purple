@@ -4,9 +4,13 @@ import 'dart:ui' as ui;
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dr_purple/app/app_configurations/assets.dart';
+import 'package:dr_purple/app/app_management/font_manager.dart';
 import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:dr_purple/app/app_management/strings_manager.dart';
+import 'package:dr_purple/app/app_management/theme/styles_manager.dart';
+import 'package:dr_purple/app/app_management/theme/theme_cubit/theme_cubit.dart';
 import 'package:dr_purple/app/app_management/values_manager.dart';
+import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
 import 'package:dr_purple/core/utils/constants.dart';
 import 'package:dr_purple/core/widgets/sheets/valet_media_source_bottom_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -23,7 +27,7 @@ class Utils {
         msg: message,
         toastLength: Toast.LENGTH_LONG,
         backgroundColor: ColorManager.primary,
-        textColor: ColorManager.textPrimaryColor,
+        textColor: ColorManager.white,
         gravity: ToastGravity.SNACKBAR,
       );
 
@@ -126,15 +130,22 @@ class Utils {
     bool swapColors = false,
   }) =>
       AwesomeDialog(
+        useRootNavigator: false,
         context: context,
         dialogType: dialogType,
-        borderSide:
-            BorderSide(color: ColorManager.primary, width: AppSize.s5.sp),
+        borderSide: BorderSide(
+          color: instance<ThemeCubit>().isThemeDark
+              ? ColorManager.black
+              : ColorManager.primary,
+          width: AppSize.s7.sp,
+        ),
         width: AppSize.s100.w,
-        dialogBorderRadius: const BorderRadius.all(Radius.circular(AppSize.s0)),
+        dialogBorderRadius:
+            const BorderRadius.all(Radius.circular(AppSize.s10)),
         buttonsBorderRadius:
-            const BorderRadius.all(Radius.circular(AppSize.s0)),
-        buttonsTextStyle: Theme.of(context).textTheme.titleSmall,
+            const BorderRadius.all(Radius.circular(AppSize.s10)),
+        buttonsTextStyle:
+            getRegularTextStyle(color: ColorManager.textPrimaryColor),
         btnCancelText: AppStrings.cancelAction.tr(),
         btnOkText: okButtonTitle,
         dismissOnTouchOutside: false,
@@ -142,15 +153,11 @@ class Utils {
         headerAnimationLoop: false,
         animType: AnimType.bottomSlide,
         title: dialogTitle,
-        titleTextStyle: Theme.of(context)
-            .textTheme
-            .titleLarge
-            ?.copyWith(color: ColorManager.primary),
+        titleTextStyle: getBoldTextStyle(
+            color: ColorManager.textPrimaryColor, fontSize: FontSize.s20),
         desc: dialogDesc,
-        descTextStyle: Theme.of(context)
-            .textTheme
-            .titleMedium
-            ?.copyWith(color: ColorManager.primary),
+        descTextStyle: getRegularTextStyle(
+            color: ColorManager.textPrimaryColor, fontSize: FontSize.s16),
         btnOkColor: swapColors ? ColorManager.red : null,
         btnCancelColor: swapColors ? const Color(0xFF00CA71) : null,
         btnCancelOnPress: onPressCancel,

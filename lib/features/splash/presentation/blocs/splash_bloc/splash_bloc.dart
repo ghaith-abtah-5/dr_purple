@@ -33,7 +33,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
         if (!isUserSigned) {
           RouteGenerator.router.pushReplacement("/${Routes.loginRoute}");
         } else {
-          RouteGenerator.router.pushReplacement("/${Routes.homeRoute}");
+          RouteGenerator.router.go(Routes.dashboardRoute);
         }
       }
     });

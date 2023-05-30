@@ -83,30 +83,35 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
             title: AppStrings.confirm.tr(),
             onPress: () => GoRouter.of(context)
               ..pop()
-              ..pushReplacement("/${Routes.homeRoute}"),
+              ..go(Routes.dashboardRoute),
           ),
         ],
       );
 
   Widget _resendCode() => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            AppStrings.noCodeQuestion.tr(),
-            style: getRegularTextStyle(
-              color: ColorManager.textPrimaryColor,
-              fontSize: FontSize.s16,
-            ),
+          Row(
+            children: [
+              Text(
+                AppStrings.noCodeQuestion.tr(),
+                style: getRegularTextStyle(
+                  color: ColorManager.textPrimaryColor,
+                  fontSize: FontSize.s16,
+                ),
+              ),
+              SizedBox(width: AppSize.s2.w),
+              Text(
+                AppStrings.resend.tr(),
+                style: getBoldTextStyle(
+                  fontSize: FontSize.s16,
+                  color: ColorManager.primary,
+                  textDecoration: TextDecoration.underline,
+                ),
+              ).onTap(() {}),
+            ],
           ),
-          SizedBox(width: AppSize.s2.w),
-          Text(
-            AppStrings.resend.tr(),
-            style: getBoldTextStyle(
-              fontSize: FontSize.s16,
-              color: ColorManager.primary,
-              textDecoration: TextDecoration.underline,
-            ),
-          ).onTap(() async => await instance<ThemeCubit>().toggleTheme()),
-          const Text("01:58", textAlign: TextAlign.right).expand()
+          const Text("01:58", textAlign: TextAlign.right)
         ],
       );
 

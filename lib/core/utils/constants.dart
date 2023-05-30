@@ -10,7 +10,7 @@ class Constants {
   static const role = "role";
   static const file = "file";
   static const email = "email";
-  static const authorization = "X-Token";
+  static const authorization = "Authorization";
   static const language = "lang";
   static const timeout = 60 * 1000;
   static const logTag = "dr_purple";

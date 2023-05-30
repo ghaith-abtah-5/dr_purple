@@ -44,7 +44,14 @@
   "remove": "إزالة",
   "confirm": "تأكيد",
   "resend": "إعادة إرسال",
+  "home_nav": "الرئيسية",
+  "appointments_nav": "المواعيد",
+  "notifications_nav": "الإشعارات",
+  "settings_nav": "الإعدادات",
   "missing_info_error": "رجاءً أكمل المعلومات الناقصة",
+  "syrian_arab_republic": "الجمهوريّة العربيّة السوريّة",
+  "mark_all_read": "تحديد الكل كمقروء",
+  "delete_all": "حذف الكل",
   "first_slide_title": "احصل على المواعيد بطريقة سهلة",
   "first_slide_subtitle": "اختر الموعد الذي يناسب جدولك الزمني",
   "second_slide_title": "العروض",
@@ -83,5 +90,12 @@
   "new_password": "كلمة المرور الجديدة",
   "new_password_text_field_label": "كلمة المرور الجديدة الخاصة بك",
   "reenter_new_password_text_field_label": "أعد إدخال كلمة المرور الجديدة",
-  "verify_account": "توثيق الحساب الخاص بك"
+  "verify_account": "توثيق الحساب الخاص بك",
+  "dark_theme": "الوضع الليلي",
+  "delete_account": "حذف الحساب",
+  "delete_account_desc": "هل أنت متأكد أنك تريد حذف حسابك؟",
+  "logout": "تسجيل خروج",
+  "logout_desc": "هل أنت متأكد أنك تريد تسجيل الخروج؟ ",
+  "profile": "الملف الشخصي",
+  "language": "اللغة"
 }

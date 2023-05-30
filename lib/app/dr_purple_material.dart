@@ -1,4 +1,5 @@
 import 'package:dr_purple/app/app_configurations/app_configurations.dart';
+import 'package:dr_purple/app/app_configurations/scroll_behavior.dart';
 import 'package:dr_purple/app/app_management/language_manager/language_manager.dart';
 import 'package:dr_purple/app/app_management/route_manager.dart';
 import 'package:dr_purple/app/app_management/theme/theme_cubit/theme_cubit.dart';
@@ -44,6 +45,7 @@ class _DrPurpleMaterialState extends State<DrPurpleMaterial> {
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,
+            scrollBehavior: StretchScrollBehavior(),
             title: AppConfigurations.applicationName,
             routerConfig: RouteGenerator.router,
             themeAnimationCurve: Curves.easeInOutCubicEmphasized,

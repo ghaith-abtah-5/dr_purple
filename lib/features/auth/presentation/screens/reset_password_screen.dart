@@ -1,4 +1,3 @@
-import 'package:dr_purple/app/app_configurations/scroll_behavior.dart';
 import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:dr_purple/app/app_management/font_manager.dart';
 import 'package:dr_purple/app/app_management/strings_manager.dart';
@@ -72,24 +71,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         height: context.height(),
         decoration:
             boxDecorationWithRoundedCorners(backgroundColor: context.cardColor),
-        child: ScrollConfiguration(
-          behavior: StretchScrollBehavior(),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ..._resetPasswordTitle(),
-                DrPurpleVerificationCodeTextField(
-                  onChange: (val) {},
-                  itemSize: AppSize.s30.sp,
-                  length: 6,
-                ),
-                SizedBox(height: AppSize.s3.h),
-                _confirmResetPasswordCode(),
-                _newPassword(context),
-              ],
-            ).paddingAll(AppPadding.p18.sp),
-          ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ..._resetPasswordTitle(),
+              DrPurpleVerificationCodeTextField(
+                onChange: (val) {},
+                itemSize: AppSize.s30.sp,
+                length: 6,
+              ),
+              SizedBox(height: AppSize.s3.h),
+              _confirmResetPasswordCode(),
+              _newPassword(context),
+            ],
+          ).paddingAll(AppPadding.p18.sp),
         ),
       );
 
@@ -150,24 +146,29 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       ).opacity(opacity: buttonOpacity);
 
   Widget _resendCode() => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            AppStrings.noCodeQuestion.tr(),
-            style: getRegularTextStyle(
-              color: ColorManager.textPrimaryColor,
-              fontSize: FontSize.s16,
-            ),
+          Row(
+            children: [
+              Text(
+                AppStrings.noCodeQuestion.tr(),
+                style: getRegularTextStyle(
+                  color: ColorManager.textPrimaryColor,
+                  fontSize: FontSize.s16,
+                ),
+              ),
+              SizedBox(width: AppSize.s2.w),
+              Text(
+                AppStrings.resend.tr(),
+                style: getBoldTextStyle(
+                  fontSize: FontSize.s16,
+                  color: ColorManager.primary,
+                  textDecoration: TextDecoration.underline,
+                ),
+              ),
+            ],
           ),
-          SizedBox(width: AppSize.s2.w),
-          Text(
-            AppStrings.resend.tr(),
-            style: getBoldTextStyle(
-              fontSize: FontSize.s16,
-              color: ColorManager.primary,
-              textDecoration: TextDecoration.underline,
-            ),
-          ),
-          const Text("01:58", textAlign: TextAlign.right).expand()
+          const Text("01:58", textAlign: TextAlign.right)
         ],
       );
 

@@ -14,6 +14,7 @@ class LoadingOverlay {
   void show() => showDialog(
         context: _context,
         barrierDismissible: false,
+        useRootNavigator: false,
         builder: (BuildContext context) {
           return const _FullScreenLoader();
         },

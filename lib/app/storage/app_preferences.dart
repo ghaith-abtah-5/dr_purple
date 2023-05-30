@@ -26,7 +26,8 @@ class AppPreferences {
   Future<void> setAppLanguage({required Language languageValue}) async =>
       await _sharedPreferences.setString(languageKey, languageValue.name);
 
-  String? getAccessToken() => _sharedPreferences.getString(accessTokenKey);
+  String? getAccessToken() =>
+      "Bearer ${_sharedPreferences.getString(accessTokenKey)}";
 
   Future<void> setAccessToken({
     required String accessTokenValue,
@@ -68,7 +69,8 @@ class AppPreferences {
   }) async =>
       await _sharedPreferences.setBool(openFirstTimeKey, openFirstTimeValue);
 
-  bool getOpenFirstTimeValue() => _sharedPreferences.getBool(openFirstTimeKey) ?? true;
+  bool getOpenFirstTimeValue() =>
+      _sharedPreferences.getBool(openFirstTimeKey) ?? true;
 
   Future<void> reload() async => await _sharedPreferences.reload();
 

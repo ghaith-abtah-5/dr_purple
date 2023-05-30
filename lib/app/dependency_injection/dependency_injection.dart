@@ -10,18 +10,23 @@ import 'package:dr_purple/core/network/dio_factory.dart';
 import 'package:dr_purple/core/network/network_info.dart';
 import 'package:dr_purple/core/services/notification_service/notification_service.dart';
 import 'package:dr_purple/features/auth/data/remote/data_sources/login_remote_data_source.dart';
+import 'package:dr_purple/features/auth/data/remote/data_sources/logout_remote_data_source.dart';
 import 'package:dr_purple/features/auth/data/remote/data_sources/refresh_remote_data_source.dart';
 import 'package:dr_purple/features/auth/data/remote/data_sources/register_remote_data_source.dart';
 import 'package:dr_purple/features/auth/data/repositories/login_repository.dart';
+import 'package:dr_purple/features/auth/data/repositories/logout_repository.dart';
 import 'package:dr_purple/features/auth/data/repositories/refresh_repository.dart';
 import 'package:dr_purple/features/auth/data/repositories/register_repository.dart';
 import 'package:dr_purple/features/auth/domain/use_cases/login_use_case.dart';
+import 'package:dr_purple/features/auth/domain/use_cases/logout_use_case.dart';
 import 'package:dr_purple/features/auth/domain/use_cases/refresh_use_case.dart';
 import 'package:dr_purple/features/auth/domain/use_cases/register_use_case.dart';
 import 'package:dr_purple/features/auth/presentation/bloc/country_code_cubit/country_code_cubit.dart';
 import 'package:dr_purple/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
+import 'package:dr_purple/features/auth/presentation/bloc/logout_cubit/logout_cubit.dart';
 import 'package:dr_purple/features/auth/presentation/bloc/refresh/refresh_access_token.dart';
 import 'package:dr_purple/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
+import 'package:dr_purple/features/settings/presentation/blocs/manage_language_cubit/manage_language_cubit.dart';
 import 'package:dr_purple/features/splash/presentation/blocs/splash_bloc/splash_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -223,5 +228,42 @@ void initForgetPasswordModule() {
   if (!GetIt.I.isRegistered<CountryCodeCubit>()) {
     ///register Country Code Cubit as factory
     instance.registerFactory<CountryCodeCubit>(() => CountryCodeCubit());
+  }
+}
+
+void initSettingsModule() {
+  if (!GetIt.I.isRegistered<LogoutRemoteDataSource>()) {
+    ///register Logout remote data source as factory
+    instance
+        .registerFactory<LogoutRemoteDataSource>(() => LogoutRemoteDataSource(
+              instance<DioFactory>().getDio(),
+              instance<AppPreferences>(),
+              instance<RefreshAccessToken>(),
+            ));
+  }
+  if (!GetIt.I.isRegistered<LogoutRepository>()) {
+    ///register Logout repository as factory
+    instance.registerFactory<LogoutRepository>(() => LogoutRepository(
+        instance<LogoutRemoteDataSource>(), instance<NetworkInfo>()));
+  }
+  if (!GetIt.I.isRegistered<LogoutUseCase>()) {
+    ///register Logout use case as factory
+    instance.registerFactory<LogoutUseCase>(
+        () => LogoutUseCase(instance<LogoutRepository>()));
+  }
+  if (!GetIt.I.isRegistered<LogoutCubit>()) {
+    ///register logout cubit as factory
+    instance.registerFactory<LogoutCubit>(() => LogoutCubit(
+          instance<LogoutUseCase>(),
+          instance<AppPreferences>(),
+        ));
+  }
+}
+
+void initLanguageModule() {
+  if (!GetIt.I.isRegistered<ManageLanguageCubit>()) {
+    ///register manage language cubit as factory
+    instance.registerFactory<ManageLanguageCubit>(
+        () => ManageLanguageCubit(instance<LanguageManager>()));
   }
 }

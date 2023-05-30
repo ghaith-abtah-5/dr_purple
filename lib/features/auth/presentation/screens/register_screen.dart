@@ -1,5 +1,4 @@
 import 'package:dr_purple/app/app_configurations/assets.dart';
-import 'package:dr_purple/app/app_configurations/scroll_behavior.dart';
 import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:dr_purple/app/app_management/font_manager.dart';
 import 'package:dr_purple/app/app_management/route_manager.dart';
@@ -187,10 +186,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           borderRadius: radiusOnly(topRight: AppSize.s32),
           backgroundColor: context.cardColor,
         ),
-        child: ScrollConfiguration(
-          behavior: StretchScrollBehavior(),
-          child: SingleChildScrollView(child: _registerMainView()),
-        ),
+        child: SingleChildScrollView(child: _registerMainView()),
       );
 
   Widget _registerMainView() => Form(
