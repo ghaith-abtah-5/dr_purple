@@ -8,6 +8,7 @@ import 'package:dr_purple/app/app_management/values_manager.dart';
 import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
 import 'package:dr_purple/core/utils/utils.dart';
 import 'package:dr_purple/core/widgets/buttons/dr_purple_app_button.dart';
+import 'package:dr_purple/core/widgets/dr_purple_scaffold.dart';
 import 'package:dr_purple/core/widgets/loading_overlay.dart';
 import 'package:dr_purple/core/widgets/text_fields/dr_purple_name_text_field.dart';
 import 'package:dr_purple/core/widgets/text_fields/dr_purple_password_text_field.dart';
@@ -71,8 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: ColorManager.primary,
+  Widget build(BuildContext context) => DrPurpleScaffold(
         body: _screenContent(context),
       );
 

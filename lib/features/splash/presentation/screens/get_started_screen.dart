@@ -8,6 +8,7 @@ import 'package:dr_purple/app/app_management/values_manager.dart';
 import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
 import 'package:dr_purple/core/widgets/buttons/dr_purple_app_button.dart';
 import 'package:dr_purple/core/widgets/buttons/dr_purple_text_button.dart';
+import 'package:dr_purple/core/widgets/dr_purple_scaffold.dart';
 import 'package:dr_purple/features/splash/data/local/data_sources/get_started_local_data_source.dart';
 import 'package:dr_purple/features/splash/data/local/models/get_started_screen_model/get_started_screen_model.dart';
 import 'package:easy_localization/easy_localization.dart' as easy_localization;
@@ -39,8 +40,7 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: ColorManager.primary,
+  Widget build(BuildContext context) => DrPurpleScaffold(
         body: _screenContent(),
       );
 

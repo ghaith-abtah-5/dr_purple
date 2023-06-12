@@ -130,4 +130,7 @@ class AppStrings {
   static const logoutDesc = "logout_desc";
   static const profile = "profile";
   static const language = "language";
+
+  /// appointments screen
+  static const appointmentDetails = "appointment_details";
 }

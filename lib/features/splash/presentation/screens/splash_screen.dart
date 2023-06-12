@@ -2,6 +2,7 @@ import 'package:dr_purple/app/app_configurations/assets.dart';
 import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:dr_purple/app/app_management/theme/theme_cubit/theme_cubit.dart';
 import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
+import 'package:dr_purple/core/widgets/dr_purple_scaffold.dart';
 import 'package:dr_purple/features/splash/presentation/blocs/splash_bloc/splash_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => _splashBloc,
-        child: Scaffold(
+        child: DrPurpleScaffold(
           backgroundColor: !instance<ThemeCubit>().isThemeDark
               ? ColorManager.white
               : ColorManager.primary,

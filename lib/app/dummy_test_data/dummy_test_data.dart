@@ -88,3 +88,79 @@ class NotificationData {
   NotificationData(
       {required this.image, required this.title, required this.time});
 }
+
+/// appointments
+
+List<AppointmentData> appointmentDataList() {
+  List<AppointmentData> list = [];
+  list.add(
+    AppointmentData(
+      date: '10',
+      month: 'February',
+      doctor: 'Dr. Sedra Sedra',
+      department: 'Cosmetologist',
+      patient: 'Sedra Sedra',
+      service: 'Filler',
+    ),
+  );
+  list.add(
+    AppointmentData(
+      date: '12',
+      month: 'February',
+      doctor: 'Dr. Sedra Sedra',
+      department: 'Cosmetologist',
+      patient: 'Sedra Sedra ',
+      service: 'Liposuction',
+    ),
+  );
+  list.add(
+    AppointmentData(
+      date: '10',
+      month: 'January',
+      doctor: 'Dr. Sedra Sedra',
+      department: 'Cosmetologist',
+      patient: 'Sedra Sedra ',
+      service: 'Filler',
+    ),
+  );
+  list.add(
+    AppointmentData(
+      date: '12',
+      month: 'January',
+      doctor: 'Dr. Sedra Sedra',
+      department: 'Cosmetologist',
+      patient: 'Sedra Sedra ',
+      service: 'Nose reshaping',
+    ),
+  );
+  list.add(
+    AppointmentData(
+      date: '10',
+      month: 'January',
+      doctor: 'Dr. Sedra Sedra',
+      department: 'Cosmetologist',
+      patient: 'Sedra Sedra ',
+      service: 'Facelift',
+    ),
+  );
+  return list;
+}
+
+class AppointmentData {
+  String service;
+  String date;
+  String month;
+  String doctor;
+  String patient;
+  String department;
+
+  AppointmentData({
+    required this.service,
+    required this.date,
+    required this.month,
+    required this.doctor,
+    required this.patient,
+    required this.department,
+  });
+}
+/// hospital

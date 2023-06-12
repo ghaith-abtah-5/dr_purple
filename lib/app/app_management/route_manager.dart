@@ -1,4 +1,5 @@
 import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
+import 'package:dr_purple/features/appointments/presentation/screens/appointment_details_screen.dart';
 import 'package:dr_purple/features/appointments/presentation/screens/appointments_screen.dart';
 import 'package:dr_purple/features/auth/presentation/screens/forget_password_screen.dart';
 import 'package:dr_purple/features/auth/presentation/screens/login_screen.dart';
@@ -28,6 +29,7 @@ class Routes {
   static const String settingsRoute = "/settings";
   static const String notificationsRoute = "/notifications";
   static const String appointmentsRoute = "/appointments";
+  static const String appointmentDetailsRoute = "appointmentDetails";
   static const String dashboardRoute = "/dashboard";
 }
 
@@ -114,6 +116,13 @@ class RouteGenerator {
                 path: Routes.appointmentsRoute,
                 builder: (BuildContext context, GoRouterState state) =>
                     const AppointmentsScreen(),
+                routes: <GoRoute>[
+                  GoRoute(
+                    path: Routes.appointmentDetailsRoute,
+                    builder: (BuildContext context, GoRouterState state) =>
+                        const AppointmentDetailsScreen(),
+                  ),
+                ],
               ),
             ],
           ),

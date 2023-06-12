@@ -14,6 +14,7 @@ import 'package:dr_purple/core/utils/utils.dart';
 import 'package:dr_purple/core/widgets/buttons/dr_purple_app_button.dart';
 import 'package:dr_purple/core/widgets/country_code_picker/src/fl_country_code_picker.dart';
 import 'package:dr_purple/core/widgets/dr_purple_drop_down_menu.dart';
+import 'package:dr_purple/core/widgets/dr_purple_scaffold.dart';
 import 'package:dr_purple/core/widgets/loading_overlay.dart';
 import 'package:dr_purple/core/widgets/text_fields/dr_purple_email_text_field.dart';
 import 'package:dr_purple/core/widgets/text_fields/dr_purple_first_last_name_text_fields.dart';
@@ -130,8 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: ColorManager.primary,
+  Widget build(BuildContext context) => DrPurpleScaffold(
         body: _screenContent(context),
       );
 

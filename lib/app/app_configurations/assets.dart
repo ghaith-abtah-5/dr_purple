@@ -21,6 +21,8 @@ class ImageAssets {
 
   /// dummy
   static const String doctorImage = "${imageAssetsBaseRoute}dummy/doctor.png";
+  static const String hospitalImage =
+      "${imageAssetsBaseRoute}dummy/hospital.png";
 }
 
 /// icons

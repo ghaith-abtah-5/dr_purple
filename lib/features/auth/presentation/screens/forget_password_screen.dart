@@ -9,6 +9,7 @@ import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
 import 'package:dr_purple/core/widgets/buttons/dr_purple_app_button.dart';
 import 'package:dr_purple/core/widgets/buttons/dr_purple_back_button.dart';
 import 'package:dr_purple/core/widgets/country_code_picker/src/fl_country_code_picker.dart';
+import 'package:dr_purple/core/widgets/dr_purple_scaffold.dart';
 import 'package:dr_purple/core/widgets/text_fields/dr_purple_phone_number_text_field.dart';
 import 'package:dr_purple/features/auth/presentation/bloc/country_code_cubit/country_code_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -60,7 +61,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => DrPurpleScaffold(
+        backgroundColor: instance<ThemeCubit>().isThemeDark
+            ? ColorManager.appBackgroundColorDark
+            : ColorManager.white,
         body: _screenContent(context),
       );
 

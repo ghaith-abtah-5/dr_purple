@@ -7,6 +7,7 @@ import 'package:dr_purple/app/app_management/values_manager.dart';
 import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
 import 'package:dr_purple/app/dummy_test_data/dummy_test_data.dart';
 import 'package:dr_purple/core/widgets/design/dr_purple_notification_list_item_design.dart';
+import 'package:dr_purple/core/widgets/dr_purple_scaffold.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -27,26 +28,30 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   @override
   Widget build(BuildContext context) => SafeArea(
-        child: Scaffold(
-          backgroundColor: ColorManager.primary,
+        child: DrPurpleScaffold(
           body: _screenContent(context),
         ),
       );
 
-  Widget _screenContent(BuildContext context) => Container(
-        decoration: boxDecorationWithRoundedCorners(
-          borderRadius: radiusOnly(topRight: AppSize.s32),
-          backgroundColor: instance<ThemeCubit>().isThemeDark
-              ? ColorManager.black
-              : ColorManager.white,
-        ),
-        child: Column(
-          children: [
-            _notificationsAppBar(context),
-            _notificationsData(),
-            SizedBox(height: AppSize.s1.h),
-          ],
-        ),
+  Widget _screenContent(BuildContext context) => Column(
+        children: [
+          _notificationsAppBar(context),
+          SizedBox(width: AppSize.s2.w),
+          Container(
+            decoration: boxDecorationWithRoundedCorners(
+              borderRadius: radiusOnly(),
+              backgroundColor: instance<ThemeCubit>().isThemeDark
+                  ? ColorManager.black
+                  : ColorManager.white,
+            ),
+            child: Column(
+              children: [
+                _notificationsData(),
+                SizedBox(height: AppSize.s1.h),
+              ],
+            ),
+          ).expand(),
+        ],
       );
 
   Widget _notificationsData() => SingleChildScrollView(
@@ -67,7 +72,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 AppStrings.notificationsNav.tr(),
                 style: getBoldTextStyle(
                   fontSize: FontSize.s20,
-                  color: ColorManager.textPrimaryColor,
+                  color: ColorManager.white,
                 ),
               ),
               SizedBox(width: AppSize.s2.w),
@@ -75,13 +80,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   ? Container(
                       padding: EdgeInsets.all(AppPadding.p10.sp),
                       decoration: boxDecorationWithRoundedCorners(
-                        backgroundColor: ColorManager.primary,
+                        backgroundColor: ColorManager.white,
                         boxShape: BoxShape.circle,
                       ),
                       child: Text(
                         newNotification.toString(),
                         style: getRegularTextStyle(
-                          color: ColorManager.white,
+                          color: ColorManager.primary,
                           fontSize: FontSize.s16,
                         ),
                       ),
@@ -90,7 +95,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     })
                   : Container(),
             ],
-          ).expand(),
+          ),
           Container(
             padding: EdgeInsets.all(AppPadding.p8.sp),
             decoration: boxDecorationWithRoundedCorners(
@@ -100,7 +105,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             ),
             child: Icon(
               Icons.settings,
-              color: ColorManager.primary,
+              color:instance<ThemeCubit>().isThemeDark
+                  ? ColorManager.black
+                  : ColorManager.primary,
               size: AppSize.s20,
             ),
           ),

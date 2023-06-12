@@ -97,5 +97,6 @@
   "logout": "تسجيل خروج",
   "logout_desc": "هل أنت متأكد أنك تريد تسجيل الخروج؟ ",
   "profile": "الملف الشخصي",
-  "language": "اللغة"
+  "language": "اللغة",
+  "appointment_details": "تفاصيل الموعد"
 }

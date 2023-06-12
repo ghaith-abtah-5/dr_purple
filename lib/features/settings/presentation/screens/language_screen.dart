@@ -7,6 +7,7 @@ import 'package:dr_purple/app/app_management/theme/theme_cubit/theme_cubit.dart'
 import 'package:dr_purple/app/app_management/values_manager.dart';
 import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
 import 'package:dr_purple/core/widgets/buttons/dr_purple_app_button.dart';
+import 'package:dr_purple/core/widgets/dr_purple_scaffold.dart';
 import 'package:dr_purple/features/settings/presentation/blocs/manage_language_cubit/manage_language_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
         child: _languageScreenContent(),
       );
 
-  Widget _languageScreenContent() => Scaffold(
+  Widget _languageScreenContent() => DrPurpleScaffold(
         backgroundColor: instance<ThemeCubit>().isThemeDark
             ? ColorManager.black
             : ColorManager.white,

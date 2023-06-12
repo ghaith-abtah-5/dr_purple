@@ -10,6 +10,7 @@ import 'package:dr_purple/app/app_management/values_manager.dart';
 import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
 import 'package:dr_purple/core/utils/utils.dart';
 import 'package:dr_purple/core/widgets/design/dr_purple_list_item_design.dart';
+import 'package:dr_purple/core/widgets/dr_purple_scaffold.dart';
 import 'package:dr_purple/core/widgets/loading_overlay.dart';
 import 'package:dr_purple/features/auth/presentation/bloc/logout_cubit/logout_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -48,8 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: ColorManager.primary,
+  Widget build(BuildContext context) => DrPurpleScaffold(
         body: _screenContent(),
       );
 

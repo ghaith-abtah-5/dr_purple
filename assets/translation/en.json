@@ -97,5 +97,6 @@
   "logout": "Logout",
   "logout_desc": "Are you sure you want to logout?",
   "profile": "Profile",
-  "language": "Language"
+  "language": "Language",
+  "appointment_details": "Appointment Details"
 }
