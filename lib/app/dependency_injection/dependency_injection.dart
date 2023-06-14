@@ -9,23 +9,48 @@ import 'package:dr_purple/app/storage/app_preferences.dart';
 import 'package:dr_purple/core/network/dio_factory.dart';
 import 'package:dr_purple/core/network/network_info.dart';
 import 'package:dr_purple/core/services/notification_service/notification_service.dart';
+import 'package:dr_purple/features/appointments/data/remote/data_sources/book_appointment_remote_data_source.dart';
+import 'package:dr_purple/features/appointments/data/remote/data_sources/get_all_appointments_remote_data_source.dart';
+import 'package:dr_purple/features/appointments/data/remote/data_sources/get_appointment_remote_data_source.dart';
+import 'package:dr_purple/features/appointments/data/repositories/book_appointment_repository.dart';
+import 'package:dr_purple/features/appointments/data/repositories/get_all_appointments_repository.dart';
+import 'package:dr_purple/features/appointments/data/repositories/get_appointment_repository.dart';
+import 'package:dr_purple/features/appointments/domain/use_cases/book_appointment_use_case.dart';
+import 'package:dr_purple/features/appointments/domain/use_cases/get_all_appointments_use_case.dart';
+import 'package:dr_purple/features/appointments/domain/use_cases/get_appointment_use_case.dart';
+import 'package:dr_purple/features/appointments/presentation/blocs/appointments_bloc/appointments_bloc.dart';
 import 'package:dr_purple/features/auth/data/remote/data_sources/login_remote_data_source.dart';
 import 'package:dr_purple/features/auth/data/remote/data_sources/logout_remote_data_source.dart';
 import 'package:dr_purple/features/auth/data/remote/data_sources/refresh_remote_data_source.dart';
 import 'package:dr_purple/features/auth/data/remote/data_sources/register_remote_data_source.dart';
+import 'package:dr_purple/features/auth/data/remote/data_sources/verify_account_remote_data_source.dart';
 import 'package:dr_purple/features/auth/data/repositories/login_repository.dart';
 import 'package:dr_purple/features/auth/data/repositories/logout_repository.dart';
 import 'package:dr_purple/features/auth/data/repositories/refresh_repository.dart';
 import 'package:dr_purple/features/auth/data/repositories/register_repository.dart';
+import 'package:dr_purple/features/auth/data/repositories/verify_account_repository.dart';
 import 'package:dr_purple/features/auth/domain/use_cases/login_use_case.dart';
 import 'package:dr_purple/features/auth/domain/use_cases/logout_use_case.dart';
 import 'package:dr_purple/features/auth/domain/use_cases/refresh_use_case.dart';
 import 'package:dr_purple/features/auth/domain/use_cases/register_use_case.dart';
+import 'package:dr_purple/features/auth/domain/use_cases/verify_account_use_case.dart';
 import 'package:dr_purple/features/auth/presentation/bloc/country_code_cubit/country_code_cubit.dart';
 import 'package:dr_purple/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
 import 'package:dr_purple/features/auth/presentation/bloc/logout_cubit/logout_cubit.dart';
 import 'package:dr_purple/features/auth/presentation/bloc/refresh/refresh_access_token.dart';
 import 'package:dr_purple/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
+import 'package:dr_purple/features/auth/presentation/bloc/verify_account_bloc/verify_account_bloc.dart';
+import 'package:dr_purple/features/home/data/remote/data_sources/get_all_services_remote_data_source.dart';
+import 'package:dr_purple/features/home/data/remote/data_sources/get_doctor_remote_data_source.dart';
+import 'package:dr_purple/features/home/data/remote/data_sources/get_service_time_remote_data_source.dart';
+import 'package:dr_purple/features/home/data/repositories/get_all_services_repository.dart';
+import 'package:dr_purple/features/home/data/repositories/get_doctor_repository.dart';
+import 'package:dr_purple/features/home/data/repositories/get_service_time_repository.dart';
+import 'package:dr_purple/features/home/domain/use_cases/get_all_services_use_case.dart';
+import 'package:dr_purple/features/home/domain/use_cases/get_doctor_use_case.dart';
+import 'package:dr_purple/features/home/domain/use_cases/get_service_time_use_case.dart';
+import 'package:dr_purple/features/home/presentation/blocs/book_appointment_bloc/book_appointment_bloc.dart';
+import 'package:dr_purple/features/home/presentation/blocs/services_bloc/services_bloc.dart';
 import 'package:dr_purple/features/settings/presentation/blocs/manage_language_cubit/manage_language_cubit.dart';
 import 'package:dr_purple/features/splash/presentation/blocs/splash_bloc/splash_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -198,6 +223,38 @@ void initRegisterModule() {
   }
 }
 
+void initVerifyAccountModule() {
+  if (!GetIt.I.isRegistered<VerifyAccountRemoteDataSource>()) {
+    ///register Verify Account remote data source as factory
+    instance.registerFactory<VerifyAccountRemoteDataSource>(
+        () => VerifyAccountRemoteDataSource(
+              instance<DioFactory>().getDio(),
+              instance<AppPreferences>(),
+              instance<RefreshAccessToken>(),
+            ));
+  }
+  if (!GetIt.I.isRegistered<VerifyAccountRepository>()) {
+    ///register Verify Account repository as factory
+    instance.registerFactory<VerifyAccountRepository>(() =>
+        VerifyAccountRepository(instance<VerifyAccountRemoteDataSource>(),
+            instance<NetworkInfo>()));
+  }
+  if (!GetIt.I.isRegistered<VerifyAccountUseCase>()) {
+    ///register Verify Account use case as factory
+    instance.registerFactory<VerifyAccountUseCase>(
+        () => VerifyAccountUseCase(instance<VerifyAccountRepository>()));
+  }
+  if (!GetIt.I.isRegistered<VerifyAccountBloc>()) {
+    ///register Verify Account bloc as factory
+    instance.registerFactory<VerifyAccountBloc>(() => VerifyAccountBloc(
+        instance<VerifyAccountUseCase>(), instance<AppPreferences>()));
+  }
+  if (!GetIt.I.isRegistered<CountryCodeCubit>()) {
+    ///register Country Code Cubit as factory
+    instance.registerFactory<CountryCodeCubit>(() => CountryCodeCubit());
+  }
+}
+
 void initLoginModule() {
   if (!GetIt.I.isRegistered<LoginRemoteDataSource>()) {
     ///register Login remote data source as factory
@@ -221,6 +278,155 @@ void initLoginModule() {
     ///register Login bloc as factory
     instance.registerFactory<LoginBloc>(
         () => LoginBloc(instance<LoginUseCase>(), instance<AppPreferences>()));
+  }
+}
+
+void initHomeModule() {
+  if (!GetIt.I.isRegistered<GetAllServicesRemoteDataSource>()) {
+    ///register Get All Services remote data source as factory
+    instance.registerFactory<GetAllServicesRemoteDataSource>(
+        () => GetAllServicesRemoteDataSource(
+              instance<DioFactory>().getDio(),
+              instance<AppPreferences>(),
+              instance<RefreshAccessToken>(),
+            ));
+  }
+  if (!GetIt.I.isRegistered<GetAllServicesRepository>()) {
+    ///register Get All Services repository as factory
+    instance.registerFactory<GetAllServicesRepository>(() =>
+        GetAllServicesRepository(instance<GetAllServicesRemoteDataSource>(),
+            instance<NetworkInfo>()));
+  }
+  if (!GetIt.I.isRegistered<GetAllServicesUseCase>()) {
+    ///register Get All Services use case as factory
+    instance.registerFactory<GetAllServicesUseCase>(
+        () => GetAllServicesUseCase(instance<GetAllServicesRepository>()));
+  }
+  if (!GetIt.I.isRegistered<ServicesBloc>()) {
+    ///register Services bloc as factory
+    instance.registerFactory<ServicesBloc>(
+        () => ServicesBloc(instance<GetAllServicesUseCase>()));
+  }
+}
+
+void initBookAppointmentModule() {
+  if (!GetIt.I.isRegistered<GetServiceTimeRemoteDataSource>()) {
+    ///register Get Service Time remote data source as factory
+    instance.registerFactory<GetServiceTimeRemoteDataSource>(
+        () => GetServiceTimeRemoteDataSource(
+              instance<DioFactory>().getDio(),
+              instance<AppPreferences>(),
+              instance<RefreshAccessToken>(),
+            ));
+  }
+  if (!GetIt.I.isRegistered<GetServiceTimeRepository>()) {
+    ///register Get Service Time repository as factory
+    instance.registerFactory<GetServiceTimeRepository>(() =>
+        GetServiceTimeRepository(instance<GetServiceTimeRemoteDataSource>(),
+            instance<NetworkInfo>()));
+  }
+  if (!GetIt.I.isRegistered<GetServiceTimeUseCase>()) {
+    ///register Get Service Time use case as factory
+    instance.registerFactory<GetServiceTimeUseCase>(
+        () => GetServiceTimeUseCase(instance<GetServiceTimeRepository>()));
+  }
+  if (!GetIt.I.isRegistered<GetDoctorRemoteDataSource>()) {
+    ///register Get Doctor remote data source as factory
+    instance.registerFactory<GetDoctorRemoteDataSource>(
+        () => GetDoctorRemoteDataSource(
+              instance<DioFactory>().getDio(),
+              instance<AppPreferences>(),
+              instance<RefreshAccessToken>(),
+            ));
+  }
+  if (!GetIt.I.isRegistered<GetDoctorRepository>()) {
+    ///register Get Doctor repository as factory
+    instance.registerFactory<GetDoctorRepository>(() => GetDoctorRepository(
+        instance<GetDoctorRemoteDataSource>(), instance<NetworkInfo>()));
+  }
+  if (!GetIt.I.isRegistered<GetDoctorUseCase>()) {
+    ///register Get Doctor use case as factory
+    instance.registerFactory<GetDoctorUseCase>(
+        () => GetDoctorUseCase(instance<GetDoctorRepository>()));
+  }
+  if (!GetIt.I.isRegistered<BookAppointmentRemoteDataSource>()) {
+    ///register Book Appointment remote data source as factory
+    instance.registerFactory<BookAppointmentRemoteDataSource>(
+        () => BookAppointmentRemoteDataSource(
+              instance<DioFactory>().getDio(),
+              instance<AppPreferences>(),
+              instance<RefreshAccessToken>(),
+            ));
+  }
+  if (!GetIt.I.isRegistered<BookAppointmentRepository>()) {
+    ///register Book Appointment repository as factory
+    instance.registerFactory<BookAppointmentRepository>(() =>
+        BookAppointmentRepository(instance<BookAppointmentRemoteDataSource>(),
+            instance<NetworkInfo>()));
+  }
+  if (!GetIt.I.isRegistered<BookAppointmentUseCase>()) {
+    ///register Book Appointment use case as factory
+    instance.registerFactory<BookAppointmentUseCase>(
+        () => BookAppointmentUseCase(instance<BookAppointmentRepository>()));
+  }
+  if (!GetIt.I.isRegistered<BookAppointmentBloc>()) {
+    ///register Book Appointment Bloc as factory
+    instance.registerFactory<BookAppointmentBloc>(() => BookAppointmentBloc(
+          instance<GetServiceTimeUseCase>(),
+          instance<GetDoctorUseCase>(),
+          instance<BookAppointmentUseCase>(),
+        ));
+  }
+}
+
+void initAppointmentsModule() {
+  if (!GetIt.I.isRegistered<GetAllAppointmentsRemoteDataSource>()) {
+    ///register Get All Appointments remote data source as factory
+    instance.registerFactory<GetAllAppointmentsRemoteDataSource>(
+        () => GetAllAppointmentsRemoteDataSource(
+              instance<DioFactory>().getDio(),
+              instance<AppPreferences>(),
+              instance<RefreshAccessToken>(),
+            ));
+  }
+  if (!GetIt.I.isRegistered<GetAllAppointmentsRepository>()) {
+    ///register Get All Appointments repository as factory
+    instance.registerFactory<GetAllAppointmentsRepository>(() =>
+        GetAllAppointmentsRepository(
+            instance<GetAllAppointmentsRemoteDataSource>(),
+            instance<NetworkInfo>()));
+  }
+  if (!GetIt.I.isRegistered<GetAllAppointmentsUseCase>()) {
+    ///register Get All Appointments use case as factory
+    instance.registerFactory<GetAllAppointmentsUseCase>(() =>
+        GetAllAppointmentsUseCase(instance<GetAllAppointmentsRepository>()));
+  }
+  if (!GetIt.I.isRegistered<GetAppointmentRemoteDataSource>()) {
+    ///register Get Appointment remote data source as factory
+    instance.registerFactory<GetAppointmentRemoteDataSource>(
+        () => GetAppointmentRemoteDataSource(
+              instance<DioFactory>().getDio(),
+              instance<AppPreferences>(),
+              instance<RefreshAccessToken>(),
+            ));
+  }
+  if (!GetIt.I.isRegistered<GetAppointmentRepository>()) {
+    ///register Get Appointment repository as factory
+    instance.registerFactory<GetAppointmentRepository>(() =>
+        GetAppointmentRepository(instance<GetAppointmentRemoteDataSource>(),
+            instance<NetworkInfo>()));
+  }
+  if (!GetIt.I.isRegistered<GetAppointmentUseCase>()) {
+    ///register Get Appointment use case as factory
+    instance.registerFactory<GetAppointmentUseCase>(
+        () => GetAppointmentUseCase(instance<GetAppointmentRepository>()));
+  }
+  if (!GetIt.I.isRegistered<AppointmentsBloc>()) {
+    ///register Appointments Bloc as factory
+    instance.registerFactory<AppointmentsBloc>(() => AppointmentsBloc(
+          instance<GetAllAppointmentsUseCase>(),
+          instance<GetAppointmentUseCase>(),
+        ));
   }
 }
 

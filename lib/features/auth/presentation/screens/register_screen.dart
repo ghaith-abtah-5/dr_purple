@@ -24,7 +24,6 @@ import 'package:dr_purple/core/widgets/text_fields/dr_purple_phone_number_text_f
 import 'package:dr_purple/features/auth/presentation/bloc/country_code_cubit/country_code_cubit.dart';
 import 'package:dr_purple/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -45,7 +44,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late final TextEditingController _emailTextEditingController,
       _passwordTextEditingController,
       _phoneNumberTextEditingController,
-      _addressTextEditingController,
       _usernameTextEditingController,
       _firstNameTextEditingController,
       _lastNameTextEditingController;
@@ -59,7 +57,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _emailTextEditingController = TextEditingController();
     _passwordTextEditingController = TextEditingController();
     _phoneNumberTextEditingController = TextEditingController();
-    _addressTextEditingController = TextEditingController();
     _firstNameTextEditingController = TextEditingController();
     _lastNameTextEditingController = TextEditingController();
     _usernameTextEditingController = TextEditingController();
@@ -77,10 +74,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     _phoneNumberTextEditingController.addListener(() => _registerBloc
       ..add(SetRegisterPhoneNumber(_phoneNumberTextEditingController.text))
-      ..add(RegisterValidateInputEvent()));
-
-    _addressTextEditingController.addListener(() => _registerBloc
-      ..add(SetRegisterAddress(_addressTextEditingController.text))
       ..add(RegisterValidateInputEvent()));
 
     _firstNameTextEditingController.addListener(() {
@@ -206,8 +199,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             SizedBox(height: AppSize.s2.h),
             _usernameTextField(),
             SizedBox(height: AppSize.s2.h),
-            _addressTextField(),
-            SizedBox(height: AppSize.s2.h),
             _genderSelection(),
             SizedBox(height: AppSize.s3.h),
             _registerButton(),
@@ -265,32 +256,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         formKey: _formKey,
         countryCodeCubit: _countryCodeCubit,
         countryPicker: _countryPicker,
-      );
-
-  Widget _addressTextField() => AppTextField(
-        controller: _addressTextEditingController,
-        textFieldType: TextFieldType.MULTILINE,
-        textInputAction: TextInputAction.done,
-        isValidationRequired: false,
-        decoration: InputDecoration(
-          labelText: AppStrings.addressTextFieldLabel.tr(),
-          labelStyle: getRegularTextStyle(
-            fontSize: FontSize.s16,
-            color: ColorManager.textSecondaryColor,
-          ),
-          prefixIcon: Icon(
-            CupertinoIcons.map_pin_ellipse,
-            color: instance<ThemeCubit>().isThemeDark
-                ? ColorManager.white
-                : ColorManager.black,
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: ColorManager.lightGrey.withOpacity(0.2),
-              width: AppSize.s1,
-            ),
-          ),
-        ),
       );
 
   Widget _nameTextFields() => DrPurpleFirstLastNameTextFields(

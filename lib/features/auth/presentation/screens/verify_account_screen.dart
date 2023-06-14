@@ -8,12 +8,16 @@ import 'package:dr_purple/app/app_management/theme/styles_manager.dart';
 import 'package:dr_purple/app/app_management/theme/theme_cubit/theme_cubit.dart';
 import 'package:dr_purple/app/app_management/values_manager.dart';
 import 'package:dr_purple/app/dependency_injection/dependency_injection.dart';
+import 'package:dr_purple/core/utils/utils.dart';
 import 'package:dr_purple/core/widgets/buttons/dr_purple_app_button.dart';
 import 'package:dr_purple/core/widgets/buttons/dr_purple_back_button.dart';
 import 'package:dr_purple/core/widgets/dr_purple_scaffold.dart';
+import 'package:dr_purple/core/widgets/loading_overlay.dart';
 import 'package:dr_purple/core/widgets/text_fields/dr_purple_verification_code_text_field.dart';
+import 'package:dr_purple/features/auth/presentation/bloc/verify_account_bloc/verify_account_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart' as nb;
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -26,12 +30,54 @@ class VerifyAccountScreen extends StatefulWidget {
 }
 
 class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
+  late final VerifyAccountBloc _verifyAccountBloc;
+
+  _bind() => _verifyAccountBloc = instance<VerifyAccountBloc>();
+
   @override
-  Widget build(BuildContext context) => DrPurpleScaffold(
-    backgroundColor: instance<ThemeCubit>().isThemeDark
-        ? ColorManager.appBackgroundColorDark
-        : ColorManager.white,
-        body: _screenContent(context),
+  void initState() {
+    super.initState();
+    _bind();
+  }
+
+  _disposeBloc() async => await _verifyAccountBloc.close();
+
+  @override
+  void dispose() {
+    _disposeBloc();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => BlocProvider(
+        create: (context) => _verifyAccountBloc,
+        child: BlocListener<VerifyAccountBloc, VerifyAccountState>(
+          listener: (context, state) async {
+            if (state is VerifyAccountLoading) {
+              if (state.loadingType == VerifyAccountBlocStateType.server) {
+                LoadingOverlay.of(context).show();
+              }
+            } else if (state is VerifyAccountLoaded) {
+              if (state.loadedType == VerifyAccountBlocStateType.server) {
+                LoadingOverlay.of(context).hide();
+                GoRouter.of(context)
+                  ..pop()
+                  ..go(Routes.homeRoute);
+              }
+            } else if (state is VerifyAccountError) {
+              if (state.errorType == VerifyAccountBlocStateType.server) {
+                LoadingOverlay.of(context).hide();
+              }
+              await Utils.showToast(state.errorMessage);
+            }
+          },
+          child: DrPurpleScaffold(
+            backgroundColor: instance<ThemeCubit>().isThemeDark
+                ? ColorManager.appBackgroundColorDark
+                : ColorManager.white,
+            body: _screenContent(context),
+          ),
+        ),
       );
 
   Widget _screenContent(BuildContext context) => Stack(
@@ -56,7 +102,8 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
                 _verifyAccountImage(),
                 ..._verifyAccountTitle(),
                 DrPurpleVerificationCodeTextField(
-                  onChange: (val) {},
+                  onChange: (code) =>
+                      _verifyAccountBloc.add(SetVerificationCode(code: code)),
                   itemSize: AppSize.s30.sp,
                   length: 6,
                 ),
@@ -83,11 +130,16 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
         children: [
           _resendCode(),
           SizedBox(height: AppSize.s3.h),
-          DrPurpleAppButton(
-            title: AppStrings.confirm.tr(),
-            onPress: () => GoRouter.of(context)
-              ..pop()
-              ..go(Routes.dashboardRoute),
+          BlocBuilder<VerifyAccountBloc, VerifyAccountState>(
+            buildWhen: (prev, state) =>
+                state is VerifyAccountLoaded &&
+                state.loadedType == VerifyAccountBlocStateType.setCode,
+            builder: (context, state) => DrPurpleAppButton(
+                title: AppStrings.confirm.tr(),
+                onPress: _verifyAccountBloc.inputValid
+                    ? () => _verifyAccountBloc.add(VerifyUserAccount())
+                    : () async => await Utils.showToast(
+                        AppStrings.verifyAccountError.tr())),
           ),
         ],
       );

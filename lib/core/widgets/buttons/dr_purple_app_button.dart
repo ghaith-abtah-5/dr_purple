@@ -10,17 +10,22 @@ class DrPurpleAppButton extends StatelessWidget {
     required this.title,
     required this.onPress,
     this.switchColors = false,
+    this.width,
+    this.color,
   }) : super(key: key);
 
   final String title;
   final Function()? onPress;
   final bool switchColors;
+  final double? width;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) => AppButton(
         onTap: onPress,
-        width: switchColors ? null : double.infinity,
-        color: switchColors ? ColorManager.white : ColorManager.primary,
+        width: switchColors ? width : double.infinity,
+        color:
+            color ?? (switchColors ? ColorManager.white : ColorManager.primary),
         child: Text(
           title,
           textAlign: TextAlign.center,

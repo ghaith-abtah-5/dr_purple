@@ -67,8 +67,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     });
 
     on<LoginValidateInputEvent>((event, emit) {
-      _inputsValid = Utils.isNameValid(_loginObject.userName) &&
-          Utils.isPasswordValid(_loginObject.password);
+      _inputsValid = Utils.isNameValid(_loginObject.userName);
+      //  && Utils.isPasswordValid(_loginObject.password);
       emit(LoginLoaded(loadedType: LoginBlocStateType.validateInput));
     });
   }

@@ -57,11 +57,12 @@ class DrPurplePasswordTextField extends StatelessWidget {
             ),
           ),
         ),
-        onTap: () => formKey.currentState?.validate(),
-        onChanged: (_) => formKey.currentState?.validate(),
+      //  onTap: () => formKey.currentState?.validate(),
+       // onChanged: (_) => formKey.currentState?.validate(),
         validator: (value) =>
-            value == null || Utils.isPasswordValid(value) || value.isEmpty
-                ? null
-                : AppStrings.passwordError.tr(),
+           // value == null || Utils.isPasswordValid(value) || value.isEmpty
+            //    ?
+            null
+              //  : AppStrings.passwordError.tr(),
       );
 }

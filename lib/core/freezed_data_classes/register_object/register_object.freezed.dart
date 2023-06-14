@@ -22,7 +22,6 @@ mixin _$RegisterObject {
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
   String get contactNumber => throw _privateConstructorUsedError;
-  String get address => throw _privateConstructorUsedError;
   Gender get gender => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -43,7 +42,6 @@ abstract class $RegisterObjectCopyWith<$Res> {
       String email,
       String password,
       String contactNumber,
-      String address,
       Gender gender});
 }
 
@@ -66,7 +64,6 @@ class _$RegisterObjectCopyWithImpl<$Res, $Val extends RegisterObject>
     Object? email = null,
     Object? password = null,
     Object? contactNumber = null,
-    Object? address = null,
     Object? gender = null,
   }) {
     return _then(_value.copyWith(
@@ -94,10 +91,6 @@ class _$RegisterObjectCopyWithImpl<$Res, $Val extends RegisterObject>
           ? _value.contactNumber
           : contactNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      address: null == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String,
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
@@ -121,7 +114,6 @@ abstract class _$$_RegisterObjectCopyWith<$Res>
       String email,
       String password,
       String contactNumber,
-      String address,
       Gender gender});
 }
 
@@ -142,7 +134,6 @@ class __$$_RegisterObjectCopyWithImpl<$Res>
     Object? email = null,
     Object? password = null,
     Object? contactNumber = null,
-    Object? address = null,
     Object? gender = null,
   }) {
     return _then(_$_RegisterObject(
@@ -170,10 +161,6 @@ class __$$_RegisterObjectCopyWithImpl<$Res>
           ? _value.contactNumber
           : contactNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      null == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String,
       null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
@@ -186,7 +173,7 @@ class __$$_RegisterObjectCopyWithImpl<$Res>
 
 class _$_RegisterObject implements _RegisterObject {
   _$_RegisterObject(this.firstName, this.lastName, this.userName, this.email,
-      this.password, this.contactNumber, this.address, this.gender);
+      this.password, this.contactNumber, this.gender);
 
   @override
   final String firstName;
@@ -201,13 +188,11 @@ class _$_RegisterObject implements _RegisterObject {
   @override
   final String contactNumber;
   @override
-  final String address;
-  @override
   final Gender gender;
 
   @override
   String toString() {
-    return 'RegisterObject(firstName: $firstName, lastName: $lastName, userName: $userName, email: $email, password: $password, contactNumber: $contactNumber, address: $address, gender: $gender)';
+    return 'RegisterObject(firstName: $firstName, lastName: $lastName, userName: $userName, email: $email, password: $password, contactNumber: $contactNumber, gender: $gender)';
   }
 
   @override
@@ -226,13 +211,12 @@ class _$_RegisterObject implements _RegisterObject {
                 other.password == password) &&
             (identical(other.contactNumber, contactNumber) ||
                 other.contactNumber == contactNumber) &&
-            (identical(other.address, address) || other.address == address) &&
             (identical(other.gender, gender) || other.gender == gender));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, firstName, lastName, userName,
-      email, password, contactNumber, address, gender);
+      email, password, contactNumber, gender);
 
   @JsonKey(ignore: true)
   @override
@@ -249,7 +233,6 @@ abstract class _RegisterObject implements RegisterObject {
       final String email,
       final String password,
       final String contactNumber,
-      final String address,
       final Gender gender) = _$_RegisterObject;
 
   @override
@@ -264,8 +247,6 @@ abstract class _RegisterObject implements RegisterObject {
   String get password;
   @override
   String get contactNumber;
-  @override
-  String get address;
   @override
   Gender get gender;
   @override

@@ -49,57 +49,69 @@ class _LanguageScreenState extends State<LanguageScreen> {
         child: _languageScreenContent(),
       );
 
-  Widget _languageScreenContent() => DrPurpleScaffold(
-        backgroundColor: instance<ThemeCubit>().isThemeDark
-            ? ColorManager.black
-            : ColorManager.white,
-        appBar: AppBar(
-          title: Text(AppStrings.languageScreenTitle.tr()),
-        ),
-        body: Column(
-          children: [
-            SizedBox(height: AppSize.s10.h),
-            BlocBuilder<ManageLanguageCubit, ManageLanguageState>(
-              builder: (context, state) => Column(
-                children: [
-                  RadioListTile<Language>(
-                    title: Text(
-                      AppStrings.englishLanguage,
-                      style: getRegularTextStyle(
-                        color: ColorManager.textPrimaryColor,
-                        fontSize: FontSize.s20,
-                      ),
-                    ),
-                    value: Language.en,
-                    groupValue: _manageLanguageCubit.selectedLanguage,
-                    onChanged: (Language? newLanguage) => _manageLanguageCubit
-                        .manageScreen(newLanguage ?? Language.en),
-                    activeColor: ColorManager.primary,
-                  ),
-                  RadioListTile<Language>(
-                    title: Text(
-                      AppStrings.arabicLanguage,
-                      style: getRegularTextStyle(
-                        color: ColorManager.textPrimaryColor,
-                        fontSize: FontSize.s20,
-                      ),
-                    ),
-                    value: Language.ar,
-                    groupValue: _manageLanguageCubit.selectedLanguage,
-                    onChanged: (Language? newLanguage) => _manageLanguageCubit
-                        .manageScreen(newLanguage ?? Language.ar),
-                    activeColor: ColorManager.primary,
-                  ),
-                ],
-              ),
+  Widget _languageScreenContent() =>
+      BlocBuilder<ManageLanguageCubit, ManageLanguageState>(
+        builder: (context, state) {
+          return DrPurpleScaffold(
+            backgroundColor: instance<ThemeCubit>().isThemeDark
+                ? ColorManager.black
+                : ColorManager.white,
+            appBar: AppBar(
+              title: Text(AppStrings.languageScreenTitle.tr()),
             ),
-            SizedBox(height: AppSize.s2.h),
-            DrPurpleAppButton(
-              onPress: () async =>
-                  await _manageLanguageCubit.changeAppLanguage(context),
-              title: AppStrings.confirm.tr(),
-            ),
-          ],
-        ).paddingSymmetric(horizontal: AppSize.s4.w),
+            body: Column(
+              children: [
+                SizedBox(height: AppSize.s10.h),
+                Container(
+                  padding: EdgeInsets.all(AppPadding.p10.sp),
+                  decoration: boxDecorationRoundedWithShadow(
+                    AppSize.s10.toInt(),
+                    backgroundColor: context.cardColor,
+                  ),
+                  child: Column(
+                    children: [
+                      RadioListTile<Language>(
+                        title: Text(
+                          AppStrings.englishLanguage,
+                          style: getRegularTextStyle(
+                            color: ColorManager.textPrimaryColor,
+                            fontSize: FontSize.s18,
+                          ),
+                        ),
+                        value: Language.en,
+                        groupValue: _manageLanguageCubit.selectedLanguage,
+                        onChanged: (Language? newLanguage) =>
+                            _manageLanguageCubit
+                                .manageScreen(newLanguage ?? Language.en),
+                        activeColor: ColorManager.primary,
+                      ),
+                      RadioListTile<Language>(
+                        title: Text(
+                          AppStrings.arabicLanguage,
+                          style: getRegularTextStyle(
+                            color: ColorManager.textPrimaryColor,
+                            fontSize: FontSize.s18,
+                          ),
+                        ),
+                        value: Language.ar,
+                        groupValue: _manageLanguageCubit.selectedLanguage,
+                        onChanged: (Language? newLanguage) =>
+                            _manageLanguageCubit
+                                .manageScreen(newLanguage ?? Language.ar),
+                        activeColor: ColorManager.primary,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: AppSize.s2.h),
+                DrPurpleAppButton(
+                  onPress: () async =>
+                      await _manageLanguageCubit.changeAppLanguage(context),
+                  title: AppStrings.confirm.tr(),
+                ),
+              ],
+            ).paddingSymmetric(horizontal: AppSize.s4.w),
+          );
+        },
       );
 }

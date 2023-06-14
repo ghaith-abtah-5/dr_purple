@@ -39,8 +39,6 @@ class RegisterParamsBody extends BaseBodyModel {
   final String? contactNumber;
   @JsonKey(name: "email")
   final String? email;
-  @JsonKey(name: "address")
-  final String? address;
   @JsonKey(name: "gender")
   final int? gender;
 
@@ -50,7 +48,6 @@ class RegisterParamsBody extends BaseBodyModel {
     required this.userName,
     required this.password,
     required this.contactNumber,
-    required this.address,
     required this.gender,
     required this.email,
   });

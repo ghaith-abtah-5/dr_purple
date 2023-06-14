@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dr_purple/app/app_configurations/assets.dart';
 import 'package:dr_purple/app/app_management/font_manager.dart';
+import 'package:dr_purple/app/app_management/language_manager/language_manager.dart';
 import 'package:dr_purple/app/app_management/theme/color_manager.dart';
 import 'package:dr_purple/app/app_management/strings_manager.dart';
 import 'package:dr_purple/app/app_management/theme/styles_manager.dart';
@@ -116,6 +117,86 @@ class Utils {
       localTime = "$localTime${formattedDate.minute}";
     }
     return localTime;
+  }
+
+  static String getDuration(String duration) {
+    final time = duration.split(":").map((e) => int.parse(e)).toList();
+    Duration newDuration =
+        Duration(hours: time[0], minutes: time[1], seconds: time[2]);
+    final durationSeconds = newDuration.inSeconds;
+    double allMinutes = 0.0;
+    allMinutes = durationSeconds / 60;
+    int minutes = allMinutes.round();
+    String formattedDuration = Constants.empty;
+    if (minutes > 59) {
+      allMinutes = minutes / 60;
+      int newMinutes = minutes % 60;
+      int hours = allMinutes.toInt();
+      if (instance<LanguageManager>().isArabic) {
+        if (hours > 2 && hours < 11) {
+          formattedDuration += "$hours ${AppStrings.hours.tr()}";
+        } else if (hours == 1 || hours > 10) {
+          formattedDuration += "$hours ${AppStrings.hour.tr()}";
+        }
+        if (newMinutes > 2 && newMinutes < 11) {
+          formattedDuration += ", $newMinutes ${AppStrings.minutes.tr()}";
+        } else if (newMinutes == 1 || newMinutes > 10) {
+          formattedDuration += ", $newMinutes ${AppStrings.minute.tr()}";
+        }
+      } else {
+        if (hours > 1) {
+          formattedDuration += "$hours ${AppStrings.hours.tr()}";
+        } else {
+          formattedDuration += "$hours ${AppStrings.hour.tr()}";
+        }
+        if (newMinutes > 1) {
+          formattedDuration += ", $newMinutes ${AppStrings.minutes.tr()}";
+        } else if (newMinutes == 1) {
+          formattedDuration += ", $newMinutes ${AppStrings.minute.tr()}";
+        }
+      }
+    } else {
+      if (instance<LanguageManager>().isArabic) {
+        if (minutes > 2 && minutes < 11) {
+          formattedDuration += "$minutes ${AppStrings.minutes.tr()}";
+        } else if (minutes == 1 || minutes > 10) {
+          formattedDuration += "$minutes ${AppStrings.minute.tr()}";
+        }
+      } else {
+        if (minutes > 1) {
+          formattedDuration += "$minutes ${AppStrings.minutes.tr()}";
+        } else if (minutes == 1) {
+          formattedDuration += "$minutes ${AppStrings.minute.tr()}";
+        }
+      }
+    }
+    return formattedDuration;
+  }
+
+  static String getAppointmentTime(String date, String time) {
+    final timeSplit = time.split(":");
+    return "$date ${AppStrings.atHour.tr()} ${timeSplit[0]}:${timeSplit[1]}";
+  }
+
+  static String getImageByServiceName(String serviceName) {
+    switch (serviceName) {
+      case "oxyGeneo":
+        return ImageAssets.oxyGeneo;
+      case "Plasma IQ":
+        return ImageAssets.plasmaIq;
+      case "Light Therapy":
+        return ImageAssets.lightTherapy;
+      case "Botox":
+        return ImageAssets.botox;
+      case "Lifting":
+        return ImageAssets.lifting;
+      case "Electrolysis":
+        return ImageAssets.electrolysis;
+      case "Photo Depilation":
+        return ImageAssets.photoEpilation;
+      default:
+        return ImageAssets.lifting;
+    }
   }
 
   /// dialogs

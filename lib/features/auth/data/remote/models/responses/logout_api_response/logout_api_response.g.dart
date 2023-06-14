@@ -9,7 +9,7 @@ part of 'logout_api_response.dart';
 LogoutAPIResponse _$LogoutAPIResponseFromJson(Map<String, dynamic> json) =>
     LogoutAPIResponse()
       ..succsess = json['succsess'] as bool?
-      ..messageId = json['messageId'] as String?
+      ..messageId = json['messageId'] as int?
       ..message = json['message'] as String?;
 
 Map<String, dynamic> _$LogoutAPIResponseToJson(LogoutAPIResponse instance) =>

@@ -79,7 +79,7 @@ class BackgroundUploader {
         MultipartFormDataUpload(
           url: url,
           headers: headers,
-          files: [FileItem(path: filePath)],
+          files: [FileItem(path: filePath, field: "profilePic")],
         ),
       );
       return {

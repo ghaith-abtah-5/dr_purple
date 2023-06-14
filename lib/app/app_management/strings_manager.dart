@@ -60,6 +60,12 @@ class AppStrings {
   static const delete = "delete";
   static const remove = "remove";
   static const confirm = "confirm";
+  static const close = "close";
+  static const continueAction = "continue_action";
+  static const hour = "hour";
+  static const hours = "hours";
+  static const minute = "minute";
+  static const minutes = "minutes";
   static const resend = "resend";
   static const homeNav = "home_nav";
   static const appointmentsNav = "appointments_nav";
@@ -121,6 +127,7 @@ class AppStrings {
 
   /// verify account screen
   static const verifyAccount = "verify_account";
+  static const verifyAccountError = "verify_account_error";
 
   /// setting screen
   static const darkTheme = "dark_theme";
@@ -133,4 +140,40 @@ class AppStrings {
 
   /// appointments screen
   static const appointmentDetails = "appointment_details";
+
+  /// home screen
+  static const welcome = "welcome";
+  static const hiName = "hi_name";
+  static const appointment = "appointment";
+  static const pharmacy = "pharmacy";
+  static const departments = "departments";
+  static const viewAll = "view_all";
+  static const topOffers = "top_offers";
+  static const price = "price";
+
+  /// book appointment
+  static const bookStep = "book_step";
+  static const book = "book";
+  static const addCalender = "add_calender";
+  static const appointmentBooked = "appointment_booked";
+  static const appointmentBookedDesc = "appointment_booked_desc";
+  static const selectService = "select_service";
+  static const selectServiceError = "select_service_error";
+  static const chooseDoctor = "choose_doctor";
+  static const confirmAppointment = "confirm_appointment";
+  static const services = "services";
+  static const selectServiceDesc = "select_service_desc";
+  static const estimatedDuration = "estimated_duration";
+  static const atHour = "at_hour";
+  static const appointmentTime = "appointment_time";
+  static const appointmentTimeError = "appointment_time_error";
+  static const appointmentTimeDesc = "appointment_time_desc";
+  static const appointmentTimeEmpty = "appointment_time_empty";
+  static const appointmentTimeDots = "appointment_time_dots";
+  static const service = "service";
+  static const doctor = "doctor";
+  static const patient = "patient";
+  static const addCalError = "add_cal_error";
+  static const addCalSuccess = "add_cal_success";
+  static const selectCalendar = "select_calendar";
 }

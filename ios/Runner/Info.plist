@@ -34,6 +34,10 @@
 	<string>Dr. Purple needs access to your microphone to record videos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Dr. Purple needs access to Photo Library to let you pick images</string>
+	<key>NSCalendarsUsageDescription</key>
+    <string>Access most functions for calendar viewing and editing.</string>
+    <key>NSContactsUsageDescription</key>
+    <string>Access contacts for event attendee editing.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

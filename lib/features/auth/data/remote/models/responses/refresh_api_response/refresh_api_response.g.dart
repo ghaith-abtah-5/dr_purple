@@ -13,7 +13,7 @@ RefreshAPIResponse _$RefreshAPIResponseFromJson(Map<String, dynamic> json) =>
           : RefreshAPIResult.fromJson(json['data'] as Map<String, dynamic>),
     )
       ..succsess = json['succsess'] as bool?
-      ..messageId = json['messageId'] as String?
+      ..messageId = json['messageId'] as int?
       ..message = json['message'] as String?;
 
 Map<String, dynamic> _$RefreshAPIResponseToJson(RefreshAPIResponse instance) =>

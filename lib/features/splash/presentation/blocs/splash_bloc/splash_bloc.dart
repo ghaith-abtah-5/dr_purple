@@ -31,9 +31,25 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
 
         /// if user not signed in
         if (!isUserSigned) {
-          RouteGenerator.router.pushReplacement("/${Routes.loginRoute}");
+          /// user might be waiting for code so we must navigate to [VerifyCodeScreen]
+          final routeToNavigateTo = _appPreferences.getLastRoute();
+
+          /// if user waiting for code
+          if (routeToNavigateTo != null) {
+            /// navigate to [VerifyCodeScreen]
+            RouteGenerator.router
+              ..pushReplacement("/${Routes.registerRoute}")
+              ..push(
+                  "${RouteGenerator.router.location}/${Routes.verifyAccountRoute}");
+          }
+
+          /// if user not waiting for code
+          else {
+            /// navigate to [LoginScreen]
+            RouteGenerator.router.pushReplacement("/${Routes.loginRoute}");
+          }
         } else {
-          RouteGenerator.router.go(Routes.dashboardRoute);
+          RouteGenerator.router.go(Routes.homeRoute);
         }
       }
     });

@@ -27,8 +27,8 @@ class BackgroundUploaderRepository extends IBackgroundUploaderRepository {
       } else {
         return Left(
           ErrorEntity(
-            statusCode: int.parse(response.messageId!)
-                .numberOrZero(number: Constants.zero),
+            statusCode:
+                response.messageId!.numberOrZero(number: Constants.zero),
             message: response.message.messageOrEmpty(
               message: response.message.messageOrEmpty(
                 message: ResponseMessage.unKnown,

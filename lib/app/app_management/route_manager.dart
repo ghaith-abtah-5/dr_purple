@@ -6,6 +6,8 @@ import 'package:dr_purple/features/auth/presentation/screens/login_screen.dart';
 import 'package:dr_purple/features/auth/presentation/screens/register_screen.dart';
 import 'package:dr_purple/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:dr_purple/features/auth/presentation/screens/verify_account_screen.dart';
+import 'package:dr_purple/features/home/presentation/blocs/services_bloc/services_bloc.dart';
+import 'package:dr_purple/features/home/presentation/screens/book_appointment_screen.dart';
 import 'package:dr_purple/features/home/presentation/screens/dashboard_screen.dart';
 import 'package:dr_purple/features/home/presentation/screens/home_screen.dart';
 import 'package:dr_purple/features/notifications/presentation/screens/notifications_screen.dart';
@@ -14,6 +16,7 @@ import 'package:dr_purple/features/settings/presentation/screens/settings_screen
 import 'package:dr_purple/features/splash/presentation/screens/get_started_screen.dart';
 import 'package:dr_purple/features/splash/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class Routes {
@@ -30,11 +33,13 @@ class Routes {
   static const String notificationsRoute = "/notifications";
   static const String appointmentsRoute = "/appointments";
   static const String appointmentDetailsRoute = "appointmentDetails";
-  static const String dashboardRoute = "/dashboard";
+  static const String homeRoute = "/home";
+  static const String bookAppointmentRoute = "bookAppointment";
 }
 
 class RouteGenerator {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
+  static final _shellKey = GlobalKey<NavigatorState>();
 
   static final GoRouter router = GoRouter(
     initialLocation: Routes.splashRoute,
@@ -85,78 +90,156 @@ class RouteGenerator {
             routes: <GoRoute>[
               GoRoute(
                 path: Routes.verifyAccountRoute,
-                builder: (BuildContext context, GoRouterState state) =>
-                    const VerifyAccountScreen(),
-              ),
-            ],
-          ),
-        ],
-      ),
-
-      StatefulShellRoute.indexedStack(
-        builder: (
-          BuildContext context,
-          GoRouterState state,
-          StatefulNavigationShell navigationShell,
-        ) =>
-            HomeScreen(key: state.pageKey, navigationShell: navigationShell),
-        branches: [
-          StatefulShellBranch(
-            routes: <GoRoute>[
-              GoRoute(
-                path: Routes.dashboardRoute,
-                builder: (BuildContext context, GoRouterState state) =>
-                    const DashboardScreen(),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: <GoRoute>[
-              GoRoute(
-                path: Routes.appointmentsRoute,
-                builder: (BuildContext context, GoRouterState state) =>
-                    const AppointmentsScreen(),
-                routes: <GoRoute>[
-                  GoRoute(
-                    path: Routes.appointmentDetailsRoute,
-                    builder: (BuildContext context, GoRouterState state) =>
-                        const AppointmentDetailsScreen(),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: <GoRoute>[
-              GoRoute(
-                path: Routes.notificationsRoute,
-                builder: (BuildContext context, GoRouterState state) =>
-                    const NotificationsScreen(),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: <GoRoute>[
-              GoRoute(
-                path: Routes.settingsRoute,
                 builder: (BuildContext context, GoRouterState state) {
-                  initSettingsModule();
-                  return const SettingsScreen();
+                  initVerifyAccountModule();
+                  return const VerifyAccountScreen();
                 },
-                routes: <GoRoute>[
-                  GoRoute(
-                    path: Routes.languageRoute,
-                    builder: (BuildContext context, GoRouterState state) {
-                      initLanguageModule();
-                      return const LanguageScreen();
-                    },
-                  ),
-                ],
               ),
             ],
           ),
         ],
       ),
+      ShellRoute(
+        navigatorKey: _shellKey,
+        builder: (context, state, child) => DashboardScreen(child: child),
+        routes: <GoRoute>[
+          GoRoute(
+            parentNavigatorKey: _shellKey,
+            path: Routes.homeRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              initHomeModule();
+              return const HomeScreen();
+            },
+            routes: <GoRoute>[
+              GoRoute(
+                path: Routes.bookAppointmentRoute,
+                builder: (BuildContext context, GoRouterState state) {
+                  initBookAppointmentModule();
+                  return BlocProvider.value(
+                    value: state.extra as ServicesBloc,
+                    child: const BookAppointmentScreen(),
+                  );
+                },
+              ),
+            ],
+          ),
+          GoRoute(
+            parentNavigatorKey: _shellKey,
+            path: Routes.appointmentsRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              initAppointmentsModule();
+              return const AppointmentsScreen();
+            },
+            routes: <GoRoute>[
+              GoRoute(
+                path: Routes.appointmentDetailsRoute,
+                builder: (BuildContext context, GoRouterState state) =>
+                    const AppointmentDetailsScreen(),
+              ),
+            ],
+          ),
+          GoRoute(
+            path: Routes.notificationsRoute,
+            builder: (BuildContext context, GoRouterState state) =>
+                const NotificationsScreen(),
+          ),
+          GoRoute(
+            parentNavigatorKey: _shellKey,
+            path: Routes.settingsRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              initSettingsModule();
+              return const SettingsScreen();
+            },
+            routes: <GoRoute>[
+              GoRoute(
+                path: Routes.languageRoute,
+                builder: (BuildContext context, GoRouterState state) {
+                  initLanguageModule();
+                  return const LanguageScreen();
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+      // StatefulShellRoute.indexedStack(
+      //   builder: (
+      //     BuildContext context,
+      //     GoRouterState state,
+      //     StatefulNavigationShell navigationShell,
+      //   ) =>
+      //       DashboardScreen(
+      //           key: state.pageKey, navigationShell: navigationShell),
+      //   branches: [
+      //     StatefulShellBranch(
+      //       routes: <GoRoute>[
+      //         GoRoute(
+      //           path: Routes.homeRoute,
+      //           builder: (BuildContext context, GoRouterState state) {
+      //             initHomeModule();
+      //             return const HomeScreen();
+      //           },
+      //           routes: <GoRoute>[
+      //             GoRoute(
+      //               path: Routes.bookAppointmentRoute,
+      //               builder: (BuildContext context, GoRouterState state) {
+      //                 return BlocProvider.value(
+      //                   value: state.extra as ServicesBloc,
+      //                   child: const BookAppointmentScreen(),
+      //                 );
+      //               },
+      //             ),
+      //           ],
+      //         ),
+      //       ],
+      //     ),
+      //     StatefulShellBranch(
+      //       routes: <GoRoute>[
+      //         GoRoute(
+      //           path: Routes.appointmentsRoute,
+      //           builder: (BuildContext context, GoRouterState state) =>
+      //               const AppointmentsScreen(),
+      //           routes: <GoRoute>[
+      //             GoRoute(
+      //               path: Routes.appointmentDetailsRoute,
+      //               builder: (BuildContext context, GoRouterState state) =>
+      //                   const AppointmentDetailsScreen(),
+      //             ),
+      //           ],
+      //         ),
+      //       ],
+      //     ),
+      //     StatefulShellBranch(
+      //       routes: <GoRoute>[
+      //         GoRoute(
+      //           path: Routes.notificationsRoute,
+      //           builder: (BuildContext context, GoRouterState state) =>
+      //               const NotificationsScreen(),
+      //         ),
+      //       ],
+      //     ),
+      //     StatefulShellBranch(
+      //       routes: <GoRoute>[
+      //         GoRoute(
+      //           path: Routes.settingsRoute,
+      //           builder: (BuildContext context, GoRouterState state) {
+      //             initSettingsModule();
+      //             return const SettingsScreen();
+      //           },
+      //           routes: <GoRoute>[
+      //             GoRoute(
+      //               path: Routes.languageRoute,
+      //               builder: (BuildContext context, GoRouterState state) {
+      //                 initLanguageModule();
+      //                 return const LanguageScreen();
+      //               },
+      //             ),
+      //           ],
+      //         ),
+      //       ],
+      //     ),
+      //   ],
+      // ),
     ],
   );
 }

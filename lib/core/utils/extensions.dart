@@ -49,9 +49,9 @@ extension HTTPRequestType on RequestType {
       case RequestType.mediaUpload:
         return await remoteDataSource.uploadFile(model);
       case RequestType.delete:
-        return <String, dynamic>{};
+        return await remoteDataSource.delete(model);
       case RequestType.put:
-        return <String, dynamic>{};
+        return await remoteDataSource.put(model);
     }
   }
 }

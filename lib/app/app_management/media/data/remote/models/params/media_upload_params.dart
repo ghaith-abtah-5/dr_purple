@@ -13,7 +13,7 @@ class MediaUploadParams extends ParamsModel<MediaUploadParamsBody> {
   RequestType get requestType => RequestType.mediaUpload;
 
   @override
-  String? get url => "_url";
+  String? get url => "User/UploadProfilePic";
 
   @override
   Map<String, String> get urlParams => {};

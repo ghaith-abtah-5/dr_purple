@@ -41,12 +41,6 @@ class SetRegisterLastName extends RegisterEvent {
   SetRegisterLastName(this.lastName);
 }
 
-class SetRegisterAddress extends RegisterEvent {
-  final String address;
-
-  SetRegisterAddress(this.address);
-}
-
 class SetRegisterGender extends RegisterEvent {
   final Gender gender;
 

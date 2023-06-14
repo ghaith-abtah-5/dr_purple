@@ -12,7 +12,6 @@ class RegisterObject with _$RegisterObject {
     String email,
     String password,
     String contactNumber,
-    String address,
     Gender gender,
   ) = _RegisterObject;
 }

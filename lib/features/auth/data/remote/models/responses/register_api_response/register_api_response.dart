@@ -6,10 +6,7 @@ part 'register_api_response.g.dart';
 
 @JsonSerializable()
 class RegisterAPIResponse extends BaseResponseModel {
-  @JsonKey(name: "data")
-  RegisterAPIResult? result;
-
-  RegisterAPIResponse({required this.result});
+  RegisterAPIResponse();
 
   factory RegisterAPIResponse.fromJson(Map<String, dynamic> json) =>
       _$RegisterAPIResponseFromJson(json);
@@ -18,23 +15,5 @@ class RegisterAPIResponse extends BaseResponseModel {
   Map<String, dynamic> toJson() => _$RegisterAPIResponseToJson(this);
 
   @override
-  RegisterEntity toEntity() => RegisterEntity(
-        accessToken: result?.accessToken,
-        refreshToken: result?.refreshToken,
-      );
-}
-
-@JsonSerializable()
-class RegisterAPIResult {
-  @JsonKey(name: "accessToken")
-  String? accessToken;
-  @JsonKey(name: "refreshToken")
-  String? refreshToken;
-
-  RegisterAPIResult({required this.accessToken, required this.refreshToken});
-
-  factory RegisterAPIResult.fromJson(Map<String, dynamic> json) =>
-      _$RegisterAPIResultFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RegisterAPIResultToJson(this);
+  RegisterEntity toEntity() => RegisterEntity();
 }

@@ -95,6 +95,80 @@ abstract class RemoteDataSource {
     return response.data;
   }
 
+  Future<Map<String, dynamic>> put(ParamsModel model) async {
+    _initHeaders();
+    final url = model.baseUrl ?? baseUrl ?? _dio.options.baseUrl;
+    Response response;
+    response = await _dio.put(
+      url + model.url.toString(),
+      data: model.useDataForPostRequest == true ? model.body!.toJson() : null,
+      options: Options(
+        headers: _dio.options.headers,
+        responseType: _dio.options.responseType,
+        receiveTimeout: _dio.options.receiveTimeout,
+        sendTimeout: _dio.options.sendTimeout,
+      ),
+      queryParameters: model.urlParams,
+    );
+    if (response.data['succsess'] == false &&
+        response.data['messageId'] == ResponseCode.unAuthorized.toString()) {
+      final refreshSuccess = await _refreshAccessToken?.refresh();
+      if (refreshSuccess == true) {
+        _initHeaders();
+        response = await _dio.post(
+          url + model.url.toString(),
+          data:
+              model.useDataForPostRequest == true ? model.body!.toJson() : null,
+          options: Options(
+            headers: _dio.options.headers,
+            responseType: _dio.options.responseType,
+            receiveTimeout: _dio.options.receiveTimeout,
+            sendTimeout: _dio.options.sendTimeout,
+          ),
+          queryParameters: model.urlParams,
+        );
+      }
+    }
+    return response.data;
+  }
+
+  Future<Map<String, dynamic>> delete(ParamsModel model) async {
+    _initHeaders();
+    final url = model.baseUrl ?? baseUrl ?? _dio.options.baseUrl;
+    Response response;
+    response = await _dio.delete(
+      url + model.url.toString(),
+      data: model.useDataForPostRequest == true ? model.body!.toJson() : null,
+      options: Options(
+        headers: _dio.options.headers,
+        responseType: _dio.options.responseType,
+        receiveTimeout: _dio.options.receiveTimeout,
+        sendTimeout: _dio.options.sendTimeout,
+      ),
+      queryParameters: model.urlParams,
+    );
+    if (response.data['succsess'] == false &&
+        response.data['messageId'] == ResponseCode.unAuthorized.toString()) {
+      final refreshSuccess = await _refreshAccessToken?.refresh();
+      if (refreshSuccess == true) {
+        _initHeaders();
+        response = await _dio.post(
+          url + model.url.toString(),
+          data:
+              model.useDataForPostRequest == true ? model.body!.toJson() : null,
+          options: Options(
+            headers: _dio.options.headers,
+            responseType: _dio.options.responseType,
+            receiveTimeout: _dio.options.receiveTimeout,
+            sendTimeout: _dio.options.sendTimeout,
+          ),
+          queryParameters: model.urlParams,
+        );
+      }
+    }
+    return response.data;
+  }
+
   Future<Map<String, dynamic>> uploadFile(ParamsModel model) async {
     final url = model.baseUrl ?? baseUrl ?? _dio.options.baseUrl;
     final headers = _getMediaUploadHeaders();

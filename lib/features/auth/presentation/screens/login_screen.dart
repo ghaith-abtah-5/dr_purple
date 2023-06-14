@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
             } else if (state is LoginLoaded) {
               if (state.loadedType == LoginBlocStateType.server) {
                 LoadingOverlay.of(context).hide();
-                context.go(Routes.dashboardRoute);
+                context.go(Routes.homeRoute);
               }
             } else if (state is LoginError) {
               if (state.errorType == LoginBlocStateType.server) {
